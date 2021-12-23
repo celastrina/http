@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/celastrina/http.git",
+    "url": "git+https://github.com/celastrina/http-json.git",
     "directory": "@celastrina/http"
   },
   "keywords": [
@@ -23,11 +23,11 @@
   "author": "Robert R Murrell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/celastrina/http/issues"
+    "url": "https://github.com/celastrina/http-json/issues"
   },
-  "homepage": "https://github.com/celastrina/http#readme",
+  "homepage": "https://github.com/celastrina/http-json#readme",
   "dependencies": {
-    "@celastrina/core": "^4.11.35",
+    "@celastrina/core": "^4.12.35",
     "adal-node": "^0.2.2",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",

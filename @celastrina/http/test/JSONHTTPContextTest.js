@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("@celastrina/core");
 const {JSONHTTPContext, Cookie} = require("../HTTP");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const assert = require("assert");
 
 class MockHJSONTTPContext extends JSONHTTPContext {
@@ -46,7 +46,7 @@ describe("JSONHTTPContext", () => {
             let _azcontext = new MockAzureFunctionContext();
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -59,7 +59,7 @@ describe("JSONHTTPContext", () => {
             let _azcontext = new MockAzureFunctionContext();
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -85,7 +85,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.cookies, {}, "Session not empty object.");
@@ -106,7 +106,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.method, "post", "Expected method 'post'.");
@@ -127,7 +127,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.url, "https://www.celastrinajs.com", "Expected method 'https://www.celastrinajs.com'.");
@@ -148,7 +148,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.request, _azcontext.req, "Expected context request.");
@@ -169,7 +169,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.response, _azcontext.res, "Expected context response.");
@@ -190,7 +190,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.params, _azcontext.req.params, "Expected context params.");
@@ -211,7 +211,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.query, _azcontext.req.query, "Expected context query.");
@@ -232,7 +232,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.raw, _azcontext.req.rawBody, "Expected context raw body.");
@@ -253,7 +253,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.requestBody, _azcontext.req.body, "Expected context request body.");
@@ -274,7 +274,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.responseBody, _azcontext.res.body, "Expected context response body.");
@@ -295,7 +295,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(_context.session, null, "Expected null.");
@@ -316,7 +316,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getQuery("param1"), "test123", "Expected 'test123'.");
@@ -337,7 +337,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getQuery("param100", "test456"), "test456", "Expected 'test456'.");
@@ -358,7 +358,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getQuery("param100"), null, "Expected null.");
@@ -379,7 +379,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getRequestHeader("header1"), "testRequest123", "Expected 'testRequest123'.");
@@ -400,7 +400,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getRequestHeader("header100", "testHeadr456"), "testHeadr456", "Expected 'testHeadr456'.");
@@ -421,7 +421,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getRequestHeader("header100"), null, "Expected null.");
@@ -442,7 +442,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getResponseHeader("header1"), "testResponse123", "Expected 'testResponse123'.");
@@ -463,7 +463,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getResponseHeader("header100", "testHeadr456"), "testHeadr456", "Expected 'testHeadr456'.");
@@ -484,7 +484,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.strictEqual(await _context.getResponseHeader("header100"), null, "Expected null.");
@@ -505,7 +505,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(await _context.getURIBinding("status"), {key: "value"}, "Expected {key: 'value'}.");
@@ -526,7 +526,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             let _cookie = new Cookie("newCookie", "test123");
@@ -551,7 +551,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -574,7 +574,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -597,7 +597,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -622,7 +622,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -646,7 +646,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -672,7 +672,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -696,7 +696,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
             let _response = {code: 1234};
@@ -720,7 +720,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -746,7 +746,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -771,7 +771,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -795,7 +795,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -820,7 +820,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -845,7 +845,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -871,7 +871,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -896,7 +896,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -921,7 +921,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -945,7 +945,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -970,7 +970,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -995,7 +995,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -1019,7 +1019,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -1044,7 +1044,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 
@@ -1069,7 +1069,7 @@ describe("JSONHTTPContext", () => {
             _azcontext.res.body = {key2: "value2"};
             let _config = new Configuration("MockJSONHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new JSONHTTPContext(_config);
             await _context.initialize();
 

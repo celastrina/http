@@ -21,15 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration, Permission, MatchAny, MatchAll, MatchNone} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration, Permission, MatchAny, MatchAll, MatchNone} = require("@celastrina/core");
 const {MatchAlways, Cookie, CookieParameter, Session, SessionManager, SecureSessionManager, AESSessionManager,
        SessionRoleFactory, HTTPAddOn, LocalJwtIssuer, HTTPContext, JSONHTTPFunction, JwtAddOn} = require("../HTTP");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const {MockHTTPContext} = require("./HTTPContextTest");
 const {MockHTTPParameter} = require("./HTTPParameterMock");
 const assert = require("assert");
 const crypto = require("crypto");
-const {MockPropertyManager} = require("../../core/test/PropertyManagerTest");
+const {MockPropertyManager} = require("./PropertyManagerTest");
 const {AES256Algorithm} = require("@celastrina/core");
 const fs = require("fs");
 const cookie = require("cookie");
