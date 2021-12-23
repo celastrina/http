@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL} = require("@celastrina/core");
 const {BodyParameter} = require("../HTTP");
 const {MockHTTPContext} = require("./HTTPContextTest");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const assert = require("assert");
 const {Configuration} = require("@celastrina/core");
 
@@ -42,7 +42,7 @@ describe("BodyParameter", () => {
             let _fetch = new BodyParameter();
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let body = await _fetch.getParameter(_context, "xCelastringjsValue");
@@ -54,7 +54,7 @@ describe("BodyParameter", () => {
             let _fetch = new BodyParameter();
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let body = await _fetch.getParameter(_context, "xCelastringjsSettings.xCelastringjsSession.value");
@@ -66,7 +66,7 @@ describe("BodyParameter", () => {
             let _fetch = new BodyParameter();
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let body = await _fetch.getParameter(_context, "xCelastringjsValue2", "This is a test 2; utf-8");

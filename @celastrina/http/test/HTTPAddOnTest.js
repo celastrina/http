@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("@celastrina/core");
 const {HTTPAddOn, JwtAddOn} = require("../HTTP");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const {MockHTTPContext} = require("./HTTPContextTest");
 const {MockSessionManager} = require("./SessionManagerTest");
 const assert = require("assert");

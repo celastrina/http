@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("@celastrina/core");
 const {OpenIDJwtIssuer, HTTPContext, Cookie, JwtSubject, JwtAddOn, JwtSentry, HTTPAddOn} = require("../HTTP");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const {MockHTTPContext} = require("./HTTPContextTest");
-const {MockPropertyManager} = require("../../core/test/PropertyManagerTest");
+const {MockPropertyManager} = require("./PropertyManagerTest");
 const {MockMicrosoftOpenIDIDPServer} = require("./AzureOpenIDIPDMock");
 const assert = require("assert");
 const jwt = require("jsonwebtoken");
@@ -62,7 +62,7 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -85,7 +85,7 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -108,7 +108,7 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -131,7 +131,7 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -154,7 +154,7 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 

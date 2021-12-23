@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("@celastrina/core");
 const {HTTPContext, Cookie} = require("../HTTP");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const assert = require("assert");
 
 class MockHTTPContext extends HTTPContext {
@@ -62,7 +62,7 @@ describe("HTTPContext", () => {
         it("Creates successfully", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.notStrictEqual(_context, null, "Context null.");
             assert.notStrictEqual(typeof _context, "undefined", "Context undefined.");
@@ -72,7 +72,7 @@ describe("HTTPContext", () => {
         it("Sets default response", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_azcontext.res.status, 200, "Expected status 200.");
@@ -84,14 +84,14 @@ describe("HTTPContext", () => {
         it("Gets Cookies", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.cookies, {}, "Session not empty object.");
         });
         it("Gets method", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             await _context.initialize();
             assert.deepStrictEqual(_context.method, "post", "Expected method 'post'.");
@@ -99,140 +99,140 @@ describe("HTTPContext", () => {
         it("Gets URL", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.url, "https://www.celastrinajs.com", "Expected method 'https://www.celastrinajs.com'.");
         });
         it("Gets Request", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.request, _azcontext.req, "Expected context request.");
         });
         it("Gets Response", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.response, _azcontext.res, "Expected context response.");
         });
         it("Gets Params", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.params, _azcontext.req.params, "Expected context params.");
         });
         it("Gets Query", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.query, _azcontext.req.query, "Expected context query.");
         });
         it("Gets Raw Body", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.raw, _azcontext.req.rawBody, "Expected context raw body.");
         });
         it("Gets Request Body", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.requestBody, _azcontext.req.body, "Expected context request body.");
         });
         it("Gets Response Body", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(_context.responseBody, _azcontext.res.body, "Expected context response body.");
         });
         it("Gets Session", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(_context.session, null, "Expected null.");
         });
         it("Gets Query", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getQuery("param1"), "test123", "Expected 'test123'.");
         });
         it("Gets Query default", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getQuery("param100", "test456"), "test456", "Expected 'test456'.");
         });
         it("Gets Query null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getQuery("param100"), null, "Expected null.");
         });
         it("Gets Request Header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getRequestHeader("header1"), "testRequest123", "Expected 'testRequest123'.");
         });
         it("Gets Request Header default", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getRequestHeader("header100", "testHeadr456"), "testHeadr456", "Expected 'testHeadr456'.");
         });
         it("Gets Request Header null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getRequestHeader("header100"), null, "Expected null.");
         });
         it("Gets Response Header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getResponseHeader("header1"), "testResponse123", "Expected 'testResponse123'.");
         });
         it("Gets Response Header default", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getResponseHeader("header100", "testHeadr456"), "testHeadr456", "Expected 'testHeadr456'.");
         });
         it("Gets Response Header null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.strictEqual(await _context.getResponseHeader("header100"), null, "Expected null.");
         });
         it("Gets URI Binding", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             assert.deepStrictEqual(await _context.getURIBinding("status"), {key: "value"}, "Expected {key: 'value'}.");
         });
         it("S/Gets Cookie", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new HTTPContext(_config);
             let _cookie = new Cookie("newCookie", "test123");
             await _context.setCookie(_cookie);
@@ -243,7 +243,7 @@ describe("HTTPContext", () => {
         it("Sets an existing response header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.setResponseHeader("header2", "testHeadr456");
             assert.strictEqual(await _context.getResponseHeader("header2"), "testHeadr456", "Expected 'testHeadr456'.");
@@ -251,7 +251,7 @@ describe("HTTPContext", () => {
         it("Sets a new response header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.setResponseHeader("header3", "testHeadr789");
             assert.strictEqual(await _context.getResponseHeader("header3"), "testHeadr789", "Expected 'testHeadr789'.");
@@ -259,7 +259,7 @@ describe("HTTPContext", () => {
         it("Deletes a response header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.setResponseHeader("header4", "testHeadr789");
             await _context.deleteResponseHeader("header4");
@@ -268,7 +268,7 @@ describe("HTTPContext", () => {
         it("Splits a response header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.setResponseHeader("content-type", "application/cloudevents+json; charset=utf-8");
             let _expected = ["application/cloudevents+json", "charset=utf-8"];
@@ -277,7 +277,7 @@ describe("HTTPContext", () => {
         it("gets a request header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _expected = ["application/cloudevents+json", "charset=utf-8"];
             assert.deepStrictEqual(await _context.getRequestHeader("content-type"), "application/cloudevents+json; charset=utf-8", "Expected 'application/cloudevents+json; charset=utf-8'.");
@@ -285,14 +285,14 @@ describe("HTTPContext", () => {
         it("request header does not contain", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             assert.strictEqual(await _context.requestHeaderContains("content-type-false", "application/cloudevents+json"), false, "Expected false.");
         });
         it("request header dcontains", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             assert.strictEqual(await _context.requestHeaderContains("content-type", "application/cloudevents\\+json"), true, "Expected true.");
             assert.strictEqual(await _context.requestHeaderContains("content-type", "application/cloudevents"), true, "Expected true.");
@@ -300,21 +300,21 @@ describe("HTTPContext", () => {
         it("contains request header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             assert.strictEqual(await _context.containsRequestHeader("content-type"), true, "Expected true.");
         });
         it("does not contain request header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             assert.strictEqual(await _context.containsRequestHeader("sdgsdggsdagasdgsgds"), false, "Expected false.");
         });
         it("Splits a request header", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _expected = ["application/cloudevents+json", "charset=utf-8"];
             assert.deepStrictEqual(await _context.splitRequestHeader("content-type"), _expected, "Expected ['application/cloudevents+json', 'charset=utf-8'].");
@@ -337,7 +337,7 @@ describe("HTTPContext", () => {
         it("Sets cookie", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _cookie = new Cookie("cookie-name", "cookie-value");
             await _context.setCookie(_cookie);
@@ -346,7 +346,7 @@ describe("HTTPContext", () => {
         it("Sets cookie", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _cookie = new Cookie("cookie-name", "cookie-value");
             await _context.setCookie(_cookie);
@@ -370,7 +370,7 @@ describe("HTTPContext", () => {
         it("Sends default 204 response", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             _context.send();
             assert.strictEqual(_context.azureFunctionContext.res.status, 204, "Expected status code 204.");
@@ -379,7 +379,7 @@ describe("HTTPContext", () => {
         it("Sends response+200", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = {code: 1234};
             _context.send(_response, 200);
@@ -389,7 +389,7 @@ describe("HTTPContext", () => {
         it("Sends response default 200", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = {code: 1234};
             _context.send(_response);
@@ -400,7 +400,7 @@ describe("HTTPContext", () => {
         it("Sends validation error", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaValidationError.newValidationError("Invalid Message", "test.message");
             _context.sendValidationError(_response);
@@ -410,7 +410,7 @@ describe("HTTPContext", () => {
         it("Sends validation error, null error", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaValidationError.newValidationError("bad request");
             _context.sendValidationError();
@@ -420,7 +420,7 @@ describe("HTTPContext", () => {
         it("Sends redirect, body null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             _context.sendRedirect("https://www.google.com");
             assert.strictEqual(_context.azureFunctionContext.res.status, 302, "Expected status code 302.");
@@ -430,7 +430,7 @@ describe("HTTPContext", () => {
         it("Sends redirect", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             _context.sendRedirect("https://www.google.com", {code: 1234});
             assert.strictEqual(_context.azureFunctionContext.res.status, 302, "Expected status code 302.");
@@ -440,7 +440,7 @@ describe("HTTPContext", () => {
         it("Sends redirect forward request body", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             _context.azureFunctionContext.req.body = {code: 1234};
             _context.sendRedirectForwardBody("https://www.google.com");
@@ -451,7 +451,7 @@ describe("HTTPContext", () => {
         it("Sends server error, error null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaError.newError("Internal Server Error.");
             _context.sendServerError();
@@ -461,7 +461,7 @@ describe("HTTPContext", () => {
         it("Sends server error, error not Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaError.newError("New Error");
             _context.sendServerError(new Error("New Error"));
@@ -471,7 +471,7 @@ describe("HTTPContext", () => {
         it("Sends server error, error Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaError.newError("New Error");
             _context.sendServerError(CelastrinaError.newError("New Error"));
@@ -481,7 +481,7 @@ describe("HTTPContext", () => {
         it("Sends not authorized error, error null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaError.newError("Not Authorized.", 401);
             _context.sendNotAuthorizedError();
@@ -491,7 +491,7 @@ describe("HTTPContext", () => {
         it("Sends not authorized error, error not Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             let _response = CelastrinaError.newError("New Error", 401);
             _context.sendNotAuthorizedError(new Error("New Error"));
@@ -501,7 +501,7 @@ describe("HTTPContext", () => {
         it("Sends not authorized error, error Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             _context.sendNotAuthorizedError(CelastrinaError.newError("New Error"));
@@ -511,7 +511,7 @@ describe("HTTPContext", () => {
         it("Sends Forbidden error, error null", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             _context.sendForbiddenError();
             assert.strictEqual(_context.azureFunctionContext.res.status, 403, "Expected status code 403.");
@@ -520,7 +520,7 @@ describe("HTTPContext", () => {
         it("Sends Forbidden error, error not Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             _context.sendForbiddenError(new Error("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 403, "Expected status code 403.");
@@ -529,7 +529,7 @@ describe("HTTPContext", () => {
         it("Sends Forbidden error, error Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             _context.sendForbiddenError(CelastrinaError.newError("New Error"));
