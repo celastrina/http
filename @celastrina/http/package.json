@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/murrellrr/celastrina.git",
+    "url": "git+https://github.com/celastrina/http.git",
     "directory": "@celastrina/http"
   },
   "keywords": [
@@ -23,9 +23,9 @@
   "author": "Robert R Murrell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/murrellrr/celastrina/issues"
+    "url": "https://github.com/celastrina/http/issues"
   },
-  "homepage": "https://github.com/murrellrr/celastrina#readme",
+  "homepage": "https://github.com/celastrina/http#readme",
   "dependencies": {
     "@celastrina/core": "^4.11.35",
     "adal-node": "^0.2.2",
