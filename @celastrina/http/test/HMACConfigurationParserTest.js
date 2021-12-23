@@ -21,11 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, instanceOfCelastringType, AddOnManager,
-       Configuration} = require("@celastrina/core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, AddOnManager, Configuration} = require("@celastrina/core");
 const {HMAC, HMACConfigurationParser, HMACAddOn, HTTPAddOn} = require("../HTTP");
 const assert = require("assert");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 
 describe("HMACConfigurationParserTest", () => {
     describe("#_create(_Object)", () => {

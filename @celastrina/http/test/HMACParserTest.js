@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, instanceOfCelastringType} = require("@celastrina/core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, instanceOfCelastrinaType} = require("@celastrina/core");
 const {HMACParser, HeaderParameter, HTTPParameter} = require("../HTTP");
 const assert = require("assert");
 
@@ -56,12 +56,12 @@ describe("HMACParserTest", () => {
             assert.strictEqual(_hmac.name, "x-celastrinajs-hmac", "Expected 'x-celastrinajs-hmac'.");
             assert.strictEqual(_hmac.algorithm, "sha256", "Expected 'sha256'.");
             assert.strictEqual(_hmac.encoding, "hex", "Expected 'hex'.");
-            assert.deepStrictEqual(instanceOfCelastringType(HTTPParameter, _hmac.parameter), true, "Expected true.");
-            assert.deepStrictEqual(_hmac.assignments.size === 0, true, "Expected size 0.");
+            assert.deepStrictEqual(instanceOfCelastrinaType(HTTPParameter, _hmac.parameter), true, "Expected true.");
+            assert.deepStrictEqual(_hmac.assignments.length === 0, true, "Expected size 0.");
         });
         it("should create hmac config", async () => {
             let _param = new HeaderParameter();
-            let _assignments = new Set(["a1", "a2", "a3"]);
+            let _assignments = ["a1", "a2", "a3"];
             let _object = {
                 _content: {type: "application/vnd.celastrinajs.attribute+json;HMAC"},
                 name: "X-test-name",

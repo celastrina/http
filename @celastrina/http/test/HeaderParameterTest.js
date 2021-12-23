@@ -21,12 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("@celastrina/core");
 const {HeaderParameter, BodyParameter} = require("../HTTP");
 const {MockHTTPContext} = require("./HTTPContextTest");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const assert = require("assert");
-const {Configuration} = require("@celastrina/core");
 
 describe("HeaderParameter", () => {
     describe("#constructor()", () => {

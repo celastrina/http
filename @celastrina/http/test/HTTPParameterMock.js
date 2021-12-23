@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 const {HTTPParameter} = require("../HTTP");
-const {CelastrinaError} = require("../../core/Core");
+const {CelastrinaError} = require("@celastrina/core");
 class MockHTTPParameter extends HTTPParameter {
     constructor(type = "MockHTTPParameter", readOnly = true, value = {mock_key: "Mock Value"}) {
         super(type, readOnly);

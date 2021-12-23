@@ -21,14 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration} = require("../../core/Core");
+const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, Configuration, Subject} = require("@celastrina/core");
 const {LocalJwtIssuer, HTTPContext, Cookie, JwtSubject, JwtAddOn, JwtSentry} = require("../HTTP");
-const {MockAzureFunctionContext} = require("../../test/AzureFunctionContextMock");
+const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 const {MockHTTPContext} = require("./HTTPContextTest");
 const assert = require("assert");
 const jwt = require("jsonwebtoken");
-const {MockPropertyManager} = require("../../core/test/PropertyManagerTest");
-const {Subject} = require("../../core");
+const {MockPropertyManager} = require("./PropertyManagerTest");
 
 describe("LocalJwtIssuer", () => {
     describe("#constructor(issuer, keyProperty, audiences = null, assignments = null, validateNonce = false)", () => {
@@ -60,7 +59,7 @@ describe("LocalJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let _subject = new Subject("1234567890");
@@ -80,7 +79,7 @@ describe("LocalJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let _subject = new Subject("1234567890");
@@ -100,7 +99,7 @@ describe("LocalJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let _subject = new Subject("1234567890");
@@ -120,7 +119,7 @@ describe("LocalJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready();
+            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let _subject = new Subject("1234567890");
