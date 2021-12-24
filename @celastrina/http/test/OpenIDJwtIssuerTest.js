@@ -62,7 +62,6 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -85,7 +84,6 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -108,7 +106,6 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -131,7 +128,6 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -154,7 +150,6 @@ describe("OpenIDJwtIssuer", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
