@@ -42,7 +42,6 @@ describe("QueryParameter", () => {
             _azcontext.bindings.req.query["X-Test-Header"] = "This is a test; utf-8";
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let query = await _fetch.getParameter(_context, "X-Test-Header");
@@ -54,7 +53,6 @@ describe("QueryParameter", () => {
             _azcontext.bindings.req.query["X-Test-Header"] = "This is a test; utf-8";
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let query = await _fetch.getParameter(_context, "X-Test-Header2", "This is a test 2; utf-8");

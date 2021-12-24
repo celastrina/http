@@ -42,7 +42,6 @@ describe("BodyParameter", () => {
             let _fetch = new BodyParameter();
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let body = await _fetch.getParameter(_context, "xCelastringjsValue");
@@ -54,7 +53,6 @@ describe("BodyParameter", () => {
             let _fetch = new BodyParameter();
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let body = await _fetch.getParameter(_context, "xCelastringjsSettings.xCelastringjsSession.value");
@@ -66,7 +64,6 @@ describe("BodyParameter", () => {
             let _fetch = new BodyParameter();
             let _config = new Configuration("BodyParameter");
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
             let body = await _fetch.getParameter(_context, "xCelastringjsValue2", "This is a test 2; utf-8");

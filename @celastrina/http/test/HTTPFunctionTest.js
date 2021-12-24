@@ -55,6 +55,23 @@ class MockHTTPFunction extends HTTPFunction {
         this._connectInvoked = false;
         this._traceInvoked = false;
     }
+    reset() {
+        this._invokedDummyFunction = false;
+        this._monitorInvoked = false;
+        this._exceptionInvoked = false;
+        this._unhandledRequestMethodInvoked = false;
+        this._processInvoked = false;
+        this._initializeInvoked = false
+        this._getInvoked = false;
+        this._putInvoked = false;
+        this._postInvoked = false;
+        this._deleteInvoked = false;
+        this._headInvoked = false;
+        this._optionInvoked = false;
+        this._patchInvoked = false;
+        this._connectInvoked = false;
+        this._traceInvoked = false;
+    }
     dummyFunction(context) {
         this._invokedDummyFunction = true;
     }
@@ -221,6 +238,40 @@ describe("HTTPFunction", () => {
             _azctx.req.headers["cookie"] = " celastrinajs_session=" + _mockenccookie + "; ";
             _azctx.req.method = "get";
             _azctx.req.originalUrl = "https://api.celastrinajs.com";
+            await _function.execute(_azctx);
+            assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+        });
+        it("should responed with default payload, multiple requests.", async () => {
+            let _azctx  = new MockAzureFunctionContext();
+            let _config = new Configuration("HTTPFunctionTest");
+            let _httpconfig = new HTTPAddOn();
+            let _pm = new MockPropertyManager();
+            _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
+            _config.setAuthorizationOptimistic(true);
+            _config.addOn(_httpconfig);
+            _httpconfig.setSessionManager(new AESSessionManager({key: "c2f9dab0ceae47d99c7bf4537fbb0c3a", iv: "1234567890123456"}, new CookieParameter()));
+            let _function = new MockHTTPFunction(_config);
+            _azctx.req.headers["host"] = "celastrinajs.com";
+            _azctx.req.headers["user-agent"] = "Mocha Celastrinajs Test / 0.0.0";
+            _azctx.req.headers["accept"] = "*/*";
+            _azctx.req.headers["Accept-Encoding"] = "gzip, deflate, br";
+            _azctx.req.headers["connection"] = "keep-alive";
+            _azctx.req.headers["cookie"] = " celastrinajs_session=" + _mockenccookie + "; ";
+            _azctx.req.method = "get";
+            _azctx.req.originalUrl = "https://api.celastrinajs.com";
+            await _function.execute(_azctx);
+            assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            _function.reset();
+            await _function.execute(_azctx);
+            assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            _function.reset();
+            await _function.execute(_azctx);
+            assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            _function.reset();
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
             assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
