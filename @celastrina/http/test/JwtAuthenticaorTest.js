@@ -44,7 +44,6 @@ describe("JwtAuthenticator", () => {
             _config.addOn(_jwtconfig).addOn(_httpconfig);
             _jwtconfig.addIssuer(new LocalJwtIssuer("@celastrinajs/issuer/mock", "celastrinajsmocktoken", ["aefff932-5d4e-4216-a117-0d42e47b06b7"], ["mock_user_role"]));
             await _config.initialize(_azctx);
-            await _config.ready(_azctx);
             let _context = new MockHTTPContext(_config);
 
             let _subject = new JwtSubject(await _config.sentry.authenticate(_context));
@@ -65,7 +64,6 @@ describe("JwtAuthenticator", () => {
             _config.addOn(_jwtconfig).addOn(_httpconfig);
             _jwtconfig.addIssuer(new LocalJwtIssuer("@celastrinajs/issuer/mock", "celastrinajsmocktoken", ["aefff932-5d4e-4216-a117-0d42e47b06b7"], ["mock_user_role"]));
             await _config.initialize(_azctx);
-            await _config.ready(_azctx);
             let _context = new MockHTTPContext(_config);
 
             try {
@@ -89,7 +87,6 @@ describe("JwtAuthenticator", () => {
             _config.addOn(_jwtconfig).addOn(_httpconfig);
             _jwtconfig.addIssuer(new LocalJwtIssuer("@celastrinajs/issuer/mock", "celastrinajsmocktoken", ["aefff932-5d4e-4216-a117-0d42e47b06b7"], ["mock_user_role"]));
             await _config.initialize(_azctx);
-            await _config.ready(_azctx);
             let _context = new MockHTTPContext(_config);
 
             try {
@@ -113,7 +110,6 @@ describe("JwtAuthenticator", () => {
             _config.addOn(_jwtconfig).addOn(_httpconfig);
             _jwtconfig.addIssuer(new LocalJwtIssuer("@celastrinajs/issuer/mock", "celastrinajsmocktoken", ["aefff932-5d4e-4216-a117-0d42e47b06b7"], ["mock_user_role"]));
             await _config.initialize(_azctx);
-            await _config.ready(_azctx);
             let _context = new MockHTTPContext(_config);
 
             try {
@@ -136,7 +132,6 @@ describe("JwtAuthenticator", () => {
             _config.addOn(_jwtconfig).addOn(_httpconfig);
             _jwtconfig.addIssuer(new LocalJwtIssuer("@celastrinajs/issuer/mock", "celastrinajsmocktoken", ["aefff932-5d4e-4216-a117-0d42e47b06b7"], ["mock_user_role"]));
             await _config.initialize(_azctx);
-            await _config.ready(_azctx);
             let _context = new MockHTTPContext(_config);
 
             try {

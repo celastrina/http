@@ -127,7 +127,6 @@ describe("SessionManager", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -148,7 +147,6 @@ describe("SessionManager", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -166,7 +164,6 @@ describe("SessionManager", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -191,7 +188,6 @@ describe("SessionManager", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -214,7 +210,6 @@ describe("SessionManager", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -283,7 +278,6 @@ describe("AESSessionManager", () => {
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
 
@@ -312,14 +306,11 @@ describe("AESSessionManager", () => {
             let _azcontext = new MockAzureFunctionContext();
             _azcontext.bindings.req.headers["cookie"] = "test=abc; celastrinajs_session=" + _encookie;
             let _config    = new Configuration("JwtSentryTest");
-            /**@type{JwtAddOn}*/let _jwtconfig = new JwtAddOn("JwtSentryTest");
             let _pm = new MockPropertyManager();
             _config.setValue(Configuration.CONFIG_PROPERTY, _pm);
             await _config.initialize(_azcontext);
-            await _config.ready(_azcontext);
             let _context = new MockHTTPContext(_config);
             await _context.initialize();
-
             let _sm = new AESSessionManager({key: "c2f9dab0ceae47d99c7bf4537fbb0c3a", iv: "1234567890123456"}, new CookieParameter());
             await _sm.initialize(_context);
             /**@type{Session}*/let _session = await _sm.newSession();
@@ -329,7 +320,7 @@ describe("AESSessionManager", () => {
             assert.strictEqual(_session instanceof Session, true, "Expected instance of Session.");
             assert.strictEqual(_session.isNew, true, "Expected true.");
             assert.strictEqual(_session.doWriteSession, true, "Expectde true.");
-            assert.strictEqual(_context.getCookie("celastrinajs_session") == null, false, "Expected false.");
+            assert.strictEqual(await _context.getCookie("celastrinajs_session") == null, false, "Expected false.");
         });
     });
 });
