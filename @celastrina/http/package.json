@@ -1,6 +1,6 @@
 {
   "name": "@celastrina/http",
-  "version": "4.6.15",
+  "version": "4.7.16",
   "description": "HTTP Function Package for Celastrina",
   "main": "HTTP.js",
   "scripts": {
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/celastrina/http-json#readme",
   "dependencies": {
-    "@celastrina/core": "^4.12.37",
+    "@celastrina/core": "^4.13.38",
     "adal-node": "^0.2.2",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
