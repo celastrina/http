@@ -56,4 +56,5 @@ You will need to make a few updates to your function.json. You’ll need to add 
 }
 ```
 
-Please visit [celastrinajs.com](https://www.celastrinajs.com) for further examples and documentation.
+## Documentation and More
+Please visit our [Github Wiki](https://github.com/celastrina/http-json/wiki) for more documentation and examples.
