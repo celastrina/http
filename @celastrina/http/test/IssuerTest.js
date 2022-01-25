@@ -58,7 +58,7 @@ describe("Issuer", () => {
             let _issuer = new MockIssuer("issuer.celastrina.js", ["celastrina.js"], ["role1"], true);
             assert.deepStrictEqual(_issuer._issuer, "issuer.celastrina.js", "Expected 'issuer.celastrina.js'.");
             assert.deepStrictEqual(_issuer._audiences, ["celastrina.js"], "Expected ['celastrina.js'].");
-            assert.deepStrictEqual(_issuer._roles, ["role1"], "Expected ['role1'].");
+            assert.deepStrictEqual(_issuer._assignments, ["role1"], "Expected ['role1'].");
             assert.deepStrictEqual(_issuer._validateNonce, true, "Expected true.");
         });
     });
