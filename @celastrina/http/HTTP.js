@@ -33,12 +33,10 @@ const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const jwkToPem = require("jwk-to-pem");
 const cookie = require("cookie");
-const {Decipher, Cipher} = require("crypto");
-const {CelastrinaError, CelastrinaValidationError, PropertyManager, ResourceManager, PermissionManager, AddOn,
+const {CelastrinaError, CelastrinaValidationError, AddOn,
        LOG_LEVEL, Configuration, Subject, Sentry, Algorithm, AES256Algorithm, Cryptography, RoleFactory,
-       RoleFactoryParser, Context, BaseFunction, ValueMatch, MatchAny, MatchAll, MatchNone,
-       AttributeParser, ConfigParser, Authenticator, instanceOfCelastrinaType} = require("@celastrina/core");
-const crypto = require("crypto");
+       RoleFactoryParser, Context, BaseFunction, ValueMatch, AttributeParser, ConfigParser, Authenticator,
+    instanceOfCelastrinaType} = require("@celastrina/core");
 /**
  * @typedef __AzureRequestBinging
  * @property {string} originalUrl
@@ -326,7 +324,7 @@ class Issuer {
     /**
      * @param {null|string} issuer
      * @param {(Array.<string>|null)} [audiences=null]
-     * @param {(Array.<string>|null)} [assignments=[]] The roles to escalate to the subject if the JWT token is
+     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token is
      *        valid for this issuer.
      * @param {boolean} [validateNonce=false]
      */
@@ -334,15 +332,15 @@ class Issuer {
                 validateNonce = false) {
         this._issuer = issuer;
         this._audiences = audiences;
-        this._roles = assignments;
+        this._assignments = assignments;
         this._validateNonce = validateNonce;
     }
     /**@return{string}*/get issuer(){return this._issuer;}
     /**@param{string}issuer*/set issuer(issuer){this._issuer = issuer;}
     /**@return{Array.<string>}*/get audiences(){return this._audiences;}
     /**@param{Array.<string>}audience*/set audiences(audience){this._audiences = audience;}
-    /**@return{Array<string>}*/get assignments(){return this._roles;}
-    /**@param{Array<string>}assignments*/set assignments(assignments){this._roles = assignments;}
+    /**@return{Array<string>}*/get assignments(){return this._assignments;}
+    /**@param{Array<string>}assignments*/set assignments(assignments){this._assignments = assignments;}
     /**@return{boolean}*/get validateNonce() {return this._validateNonce;}
     /**@param{boolean}validate*/set validateNonce(validate) {return this._validateNonce = validate;}
     /**
@@ -389,7 +387,7 @@ class Issuer {
                         }
                     }
                 }
-                return {verified: true, assignments: this._roles};
+                return {verified: true, assignments: this._assignments};
             }
             catch(exception) {
                 context.log("Exception authenticating JWT: " + exception, LOG_LEVEL.THREAT,
@@ -410,7 +408,7 @@ class LocalJwtIssuer extends Issuer {
      * @param {(null|string)} issuer
      * @param {(null|string)} key
      * @param {(Array.<string>|null)} [audiences=null]
-     * @param {(Array.<string>|null)} [assignments=[]] The roles to escalate the subject to if the JWT token is
+     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token is
      *        valid for this issuer.
      * @param {boolean} [validateNonce=false]
      */
@@ -446,7 +444,7 @@ class OpenIDJwtIssuer extends Issuer {
      * @param {null|string} issuer
      * @param {null|string} configUrl
      * @param {(Array.<string>|null)} [audiences=null]
-     * @param {(Array.<string>|null)} [assignments=[]] The roles to escalate to the subject if the JWT token is
+     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token is
      *        valid for this issuer.
      * @param {boolean} [validateNonce=false]
      */
@@ -1254,6 +1252,8 @@ class JwtConfigurationParser extends ConfigParser {
     async _create(_Object) {
         /**@type{JwtAddOn}*/let _addon = this._addons.get(JwtAddOn);
         if(instanceOfCelastrinaType(JwtAddOn, _addon)) {
+            if (_Object.hasOwnProperty("required") && (typeof _Object.required === "boolean"))
+                _addon.required = _Object.required;
             if (_Object.hasOwnProperty("issuers") && Array.isArray(_Object.issuers))
                 _addon.issuers = _Object.issuers;
             if (_Object.hasOwnProperty("parameter") && instanceOfCelastrinaType(HTTPParameter, _Object.parameter))
@@ -1283,6 +1283,7 @@ class JwtAddOn extends AddOn {
         /**@type{string}*/this._tokenName = "authorization";
         /**@type{string}*/this._tokenScheme = "Bearer";
         /**@type{boolean}*/this._removeScheme = true;
+        /**@type{boolean}*/this._required = false;
     }
     /**@return{ConfigParser}*/getConfigParser() {
         return new JwtConfigurationParser();
@@ -1292,7 +1293,7 @@ class JwtAddOn extends AddOn {
     }
     async initialize(azcontext, config) {
         /**@type{Sentry}*/let _sentry = config[Configuration.CONFIG_SENTRY];
-        _sentry.addAuthenticator(new JwtAuthenticator());
+        _sentry.addAuthenticator(new JwtAuthenticator(this._required));
     }
     /**@return{Array.<Issuer>}*/get issuers(){return this._issuers;}
     /**@param{Array.<Issuer>} issuers*/
@@ -1308,6 +1309,8 @@ class JwtAddOn extends AddOn {
     /**@param{string}scheme*/set scheme(scheme) {this._tokenScheme = scheme;}
     /**@return{boolean}*/get removeScheme() {return this._removeScheme;}
     /**@param{boolean}remove*/set removeScheme(remove) {this._removeScheme = remove;}
+    /**@return{boolean}*/get required() {return this._required;}
+    /**@param{boolean}required*/set required(required) {this._required = required;}
     /**
      * @param {Array.<Issuer>} [issuers=[]]
      * @return {JwtAddOn}
@@ -1338,6 +1341,11 @@ class JwtAddOn extends AddOn {
      * @return {JwtAddOn}
      */
     setRemoveScheme(remove) {this._removeScheme = remove; return this;}
+    /**
+     * @param {boolean} required
+     * @return {JwtAddOn}
+     */
+    setRequired(required) {this._required = required; return this;}
 }
 /**
  * HTTPContext
@@ -1799,7 +1807,7 @@ class JwtAuthenticator extends Authenticator {
     }
 
     /**
-     * @param {Asserter} assertion
+     * @param {Assertion} assertion
      * @return {Promise<boolean>}
      */
     async _authenticate(assertion) {
@@ -1962,7 +1970,7 @@ class HMACAuthenticator extends Authenticator {
         super("HMAC", required, link);
     }
     /**
-     * @param {Asserter} assertion
+     * @param {Assertion} assertion
      * @return {Promise<void>}
      * @private
      */

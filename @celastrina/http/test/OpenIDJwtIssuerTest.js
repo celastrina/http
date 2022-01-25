@@ -38,7 +38,7 @@ describe("OpenIDJwtIssuer", () => {
             assert.strictEqual(_openidjwt._issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_openidjwt._configUrl, "https://mockhost:9999/mock/v2.0/.well-known/openid-configuration", "Expected 'https://mockhost:9999/mock/v2.0/.well-known/openid-configuration'.");
             assert.strictEqual(_openidjwt._audiences, null, "Expected null.");
-            assert.strictEqual(_openidjwt._roles, null, "Expected null.");
+            assert.strictEqual(_openidjwt._assignments, null, "Expected null.");
             assert.strictEqual(_openidjwt._validateNonce, false, "Expected false.");
         });
         it("Constructs values", () => {
@@ -46,7 +46,7 @@ describe("OpenIDJwtIssuer", () => {
             assert.strictEqual(_openidjwt._issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_openidjwt._configUrl, "https://mockhost:9999/mock/v2.0/.well-known/openid-configuration", "Expected 'https://mockhost:9999/mock/v2.0/.well-known/openid-configuration'.");
             assert.deepStrictEqual(_openidjwt._audiences, ["a"], "Expected ['a'].");
-            assert.deepStrictEqual(_openidjwt._roles, ["b"], "Expected ['b'].");
+            assert.deepStrictEqual(_openidjwt._assignments, ["b"], "Expected ['b'].");
             assert.strictEqual(_openidjwt._validateNonce, true, "Expected true.");
         });
     });

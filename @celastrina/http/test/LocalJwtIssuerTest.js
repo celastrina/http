@@ -36,7 +36,7 @@ describe("LocalJwtIssuer", () => {
             assert.strictEqual(_localjwt._issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_localjwt._key, "celastrinajsmocktoken_prop", "Expected 'celastrinajsmocktoken_prop'.");
             assert.strictEqual(_localjwt._audiences, null, "Expected null.");
-            assert.strictEqual(_localjwt._roles, null, "Expected null.");
+            assert.strictEqual(_localjwt._assignments, null, "Expected null.");
             assert.strictEqual(_localjwt._validateNonce, false, "Expected false.");
         });
         it("Constructs values", () => {
@@ -44,7 +44,7 @@ describe("LocalJwtIssuer", () => {
             assert.strictEqual(_localjwt._issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_localjwt._key, "celastrinajsmocktoken_prop", "Expected 'celastrinajsmocktoken_prop'.");
             assert.deepStrictEqual(_localjwt._audiences, ["a"], "Expected ['a'].");
-            assert.deepStrictEqual(_localjwt._roles, ["b"], "Expected ['b'].");
+            assert.deepStrictEqual(_localjwt._assignments, ["b"], "Expected ['b'].");
             assert.strictEqual(_localjwt._validateNonce, true, "Expected true.");
         });
     });
