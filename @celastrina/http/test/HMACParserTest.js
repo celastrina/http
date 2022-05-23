@@ -29,7 +29,7 @@ describe("HMACParserTest", () => {
     describe("#_create(_HMAC)", () => {
         it("should create hmac config with required field", async () => {
             let _object = {
-                _content: {type: "application/vnd.celastrinajs.attribute+json;HMAC"},
+                $object: {contentType: "application/vnd.celastrinajs.attribute+json;HMAC"},
                 secret: "1234567890123456"
             };
             let _parser = new HMACParser();
@@ -48,7 +48,7 @@ describe("HMACParserTest", () => {
         });
         it("should create hmac config using defaults", async () => {
             let _object = {
-                _content: {type: "application/vnd.celastrinajs.attribute+json;HMAC"},
+                $object: {contentType: "application/vnd.celastrinajs.attribute+json;HMAC"},
                 secret: "1234567890123456"
             };
             let _parser = new HMACParser();
@@ -63,7 +63,7 @@ describe("HMACParserTest", () => {
             let _param = new HeaderParameter();
             let _assignments = ["a1", "a2", "a3"];
             let _object = {
-                _content: {type: "application/vnd.celastrinajs.attribute+json;HMAC"},
+                $object: {contentType: "application/vnd.celastrinajs.attribute+json;HMAC"},
                 name: "X-test-name",
                 secret: "1234567890123456",
                 encoding: "hex",
