@@ -32,7 +32,7 @@ describe("HMACConfigurationParserTest", () => {
             let _azcontext = new MockAzureFunctionContext();
             let _hmac = new HMAC("1234567890123456");
             let _object = {
-                _content: {type: "application/vnd.celastrinajs.config+json;HMAC"},
+                $object: {contentType: "application/vnd.celastrinajs.config+json;HMAC"},
                 hmac: _hmac
             };
             let _config = {};

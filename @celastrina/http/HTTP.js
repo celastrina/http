@@ -103,7 +103,8 @@ const {CelastrinaError, CelastrinaValidationError, AddOn,
  * @author Robert R Murrell
  */
 class Cookie {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.Cookie";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/Cookie#",
+                                                      type: "celastrinajs.http.Cookie"};}
     /**
      * @param {string} name
      * @param {(null|string)} [value=null]
@@ -224,7 +225,8 @@ class Cookie {
  * @author Robert R murrell
  */
 class JwtSubject {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.JwtSubject";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JwtSubject#",
+                                                      type: "celastrinajs.http.JwtSubject"};}
     static PROP_JWT_HEADER = "celastrinajs.jwt.header";
     static PROP_JWT_SIGNATURE = "celastrinajs.jwt.signature";
     static PROP_JWT_NONCE = "nonce";
@@ -320,7 +322,8 @@ class JwtSubject {
  * @author Robert R Murrell
  */
 class Issuer {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.Issuer";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/Issuer#",
+                                                      type: "celastrinajs.http.Issuer"};}
     /**
      * @param {null|string} issuer
      * @param {(Array.<string>|null)} [audiences=null]
@@ -403,7 +406,8 @@ class Issuer {
  * @author Robert R Murrell
  */
 class LocalJwtIssuer extends Issuer {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.LocalJwtIssuer";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/LocalJwtIssuer#",
+                                                      type: "celastrinajs.http.LocalJwtIssuer"};}
     /**
      * @param {(null|string)} issuer
      * @param {(null|string)} key
@@ -439,7 +443,8 @@ class LocalJwtIssuer extends Issuer {
  * @author Robert R Murrell
  */
 class OpenIDJwtIssuer extends Issuer {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.OpenIDJwtIssuer";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/OpenIDJwtIssuer#",
+                                                      type: "celastrinajs.http.OpenIDJwtIssuer"};}
     /**
      * @param {null|string} issuer
      * @param {null|string} configUrl
@@ -540,7 +545,8 @@ class OpenIDJwtIssuer extends Issuer {
  * @abstract
  */
 class IssuerParser extends AttributeParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.IssuerParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/IssuerParser#",
+                                                      type: "celastrinajs.http.IssuerParser"};}
     /**
      * @param {AttributeParser} [link=null]
      * @param {string} [type="Object"]
@@ -577,7 +583,8 @@ class IssuerParser extends AttributeParser {
  * @author Robert R Murrell
  */
 class LocalJwtIssuerParser extends IssuerParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.LocalJwtIssuerParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/LocalJwtIssuerParser#",
+                                                      type: "celastrinajs.http.LocalJwtIssuerParser"};}
     /**
      * @param {AttributeParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -606,7 +613,8 @@ class LocalJwtIssuerParser extends IssuerParser {
  * @author Robert R Murrell
  */
 class OpenIDJwtIssuerParser extends IssuerParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.OpenIDJwtIssuerParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/OpenIDJwtIssuerParser#",
+                                                      type: "celastrinajs.http.OpenIDJwtIssuerParser"};}
     /**
      * @param {AttributeParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -636,7 +644,8 @@ class OpenIDJwtIssuerParser extends IssuerParser {
  * @author Robert R Murrell
  */
 class HTTPParameter {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HTTPParameter";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPParameter#",
+                                                      type: "celastrinajs.http.HTTPParameter"};}
     /**
      * @param{string}[type]
      * @param{boolean}[readOnly]
@@ -691,7 +700,8 @@ class HTTPParameter {
  * @author Robert R Murrell
  */
 class HeaderParameter extends HTTPParameter {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HeaderParameter";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HeaderParameter#",
+                                                      type: "celastrinajs.http.HeaderParameter"};}
     constructor(type = "header"){super(type);}
     /**
      * @param {HTTPContext} context
@@ -715,7 +725,8 @@ class HeaderParameter extends HTTPParameter {
  * @author Robert R Murrell
  */
 class CookieParameter extends HTTPParameter {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.CookieParameter";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/CookieParameter#",
+                                                      type: "celastrinajs.http.CookieParameter"};}
     constructor(type = "cookie"){super(type);}
     /**
      * @param {HTTPContext} context
@@ -746,7 +757,8 @@ class CookieParameter extends HTTPParameter {
  * @author Robert R Murrell
  */
 class QueryParameter extends HTTPParameter {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.QueryParameter";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/QueryParameter#",
+                                                      type: "celastrinajs.http.QueryParameter"};}
     constructor(type = "query"){super(type, true);}
     /**
      * @param {HTTPContext} context
@@ -770,7 +782,8 @@ class QueryParameter extends HTTPParameter {
  * @author Robert R Murrell
  */
 class BodyParameter extends HTTPParameter {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.BodyParameter";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/BodyParameter#",
+                                                      type: "celastrinajs.http.BodyParameter"};}
     constructor(type = "body"){super(type);}
     /**
      * @param {HTTPContext} context
@@ -806,7 +819,8 @@ class BodyParameter extends HTTPParameter {
  * @author Robert R Murrell
  */
 class HTTPParameterParser extends AttributeParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HTTPParameterParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPParameterParser#",
+                                                      type: "celastrinajs.http.HTTPParameterParser"};}
     /**
      * @param {AttributeParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -850,7 +864,8 @@ class HTTPParameterParser extends AttributeParser {
  * @author Robert R Murrell
  */
 class Session {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.Session";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/Session#",
+                                                      type: "celastrinajs.http.Session"};}
     /**
      * @param {Object} [values = {}]
      * @param {boolean} [isNew = false]
@@ -903,7 +918,8 @@ class Session {
  * @author Robert R Murrell
  */
 class SessionManager {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.SessionManager";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/SessionManager#",
+                                                      type: "celastrinajs.http.SessionManager"};}
     /**
      * @param {HTTPParameter} parameter
      * @param {string} [name = "celastrinajs_session"]
@@ -985,7 +1001,8 @@ class SessionManager {
  * @author Robert R Murrell
  */
 class SecureSessionManager extends SessionManager {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.SecureSessionManager";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/SecureSessionManager#",
+                                                      type: "celastrinajs.http.SecureSessionManager"};}
     /**
      * @param {Algorithm} algorithm
      * @param {HTTPParameter} parameter
@@ -1028,7 +1045,8 @@ class SecureSessionManager extends SessionManager {
  * @author Robert R Murrell
  */
 class AESSessionManager extends SecureSessionManager {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.AESSessionManager";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/AESSessionManager#",
+                                                      type: "celastrinajs.http.AESSessionManager"};}
     /**
      * @param {(undefined|null|{key:string,iv:string})} options
      * @param {HTTPParameter} parameter
@@ -1050,7 +1068,8 @@ class AESSessionManager extends SecureSessionManager {
  * @author Robert R Murrell
  */
 class SessionRoleFactory extends RoleFactory {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.SessionRoleFactory";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/SessionRoleFactory#",
+                                                      type: "celastrinajs.http.SessionRoleFactory"};}
     /**
      * @param {string} [key="roles"]
      */
@@ -1075,7 +1094,8 @@ class SessionRoleFactory extends RoleFactory {
  * @author Robert R Murrell
  */
 class SessionRoleFactoryParser extends RoleFactoryParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.SessionRoleFactoryParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/SessionRoleFactoryParser#",
+                                                      type: "celastrinajs.http.SessionRoleFactoryParser"};}
     /**
      * @param {AttributeParser} link
      * @param {string} version
@@ -1099,7 +1119,8 @@ class SessionRoleFactoryParser extends RoleFactoryParser {
  * @author Robert R Murrell
  */
 class AESSessionManagerParser extends AttributeParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.AESSessionManagerParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/AESSessionManagerParser#",
+                                                      type: "celastrinajs.http.AESSessionManagerParser"};}
     /**
      * @param {AttributeParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -1146,7 +1167,8 @@ class AESSessionManagerParser extends AttributeParser {
  * @author Robert R Murrell
  */
 class HTTPConfigurationParser extends ConfigParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HTTPConfigurationParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPConfigurationParser#",
+                                                      type: "celastrinajs.http.HTTPConfigurationParser"};}
     /**
      * @param {ConfigParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -1173,7 +1195,8 @@ class HTTPConfigurationParser extends ConfigParser {
     }
 }
 class HMAC {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HMAC";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HMAC#",
+                                                      type: "celastrinajs.http.HMAC"};}
     /**
      * @param {string} secret
      * @param {HTTPParameter} parameter
@@ -1204,8 +1227,9 @@ class HMAC {
  * @author Robert R Murrell
  */
 class HTTPAddOn extends AddOn {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HTTPAddOn";}
-    /**@type{string}*/static get addOnName() {return "celastrinajs.addon.http";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPAddOn#",
+                                                      type: "celastrinajs.http.HTTPAddOn",
+                                                      addOn: "celastrinajs.addon.http"};}
     /**@param {Array<string>} [dependencies=[]]*/constructor(dependencies = []) {
         super(dependencies);
         /**@type{SessionManager}*/this._sessionManager = null;
@@ -1236,7 +1260,8 @@ class HTTPAddOn extends AddOn {
  * @author Robert R Murrell
  */
 class JwtConfigurationParser extends ConfigParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.JwtConfigurationParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JwtConfigurationParser#",
+                                                      type: "celastrinajs.http.JwtConfigurationParser"};}
     /**
      * @param {ConfigParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -1274,9 +1299,10 @@ class JwtConfigurationParser extends ConfigParser {
  * @author Robert R Murrell
  */
 class JwtAddOn extends AddOn {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.JwtAddOn";}
-    /**@type{string}*/static get addOnName() {return "celastrinajs.addon.http.jwt";}
-    /**@param {Array<string>} [dependencies=[HTTPAddOn.addOnName]]*/constructor(dependencies = [HTTPAddOn.addOnName]) {
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JwtAddOn#",
+                                                      type: "celastrinajs.http.JwtAddOn",
+                                                      addOn: "celastrinajs.addon.http.jwt"};}
+    /**@param {Array<string>} [dependencies=[HTTPAddOn.addOnName]]*/constructor(dependencies = [HTTPAddOn.$object.addOn]) {
         super(dependencies);
         /**@type{Array.<Issuer>}*/this._issuers = [];
         /**@type{HTTPParameter}*/this._tokenParameter = new HeaderParameter();
@@ -1352,7 +1378,8 @@ class JwtAddOn extends AddOn {
  * @author Robert R Murrell
  */
 class HTTPContext extends Context {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HTTPContext";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPContext#",
+                                                      type: "celastrinajs.http.HTTPContext"};}
     /**
      * @param {Configuration} config
      */
@@ -1688,7 +1715,8 @@ class HTTPContext extends Context {
  * @author Robert R Murrell
  */
 class JSONHTTPContext extends HTTPContext {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.JSONHTTPContext";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JSONHTTPContext#",
+                                                      type: "celastrinajs.http.JSONHTTPContext"};}
     /**
      * @param {Configuration} config
      */
@@ -1777,7 +1805,8 @@ class JSONHTTPContext extends HTTPContext {
  * @author Robert R Murrell
  */
 class JwtAuthenticator extends Authenticator {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.JwtAuthenticator";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JwtAuthenticator#",
+                                                      type: "celastrinajs.http.JwtAuthenticator"};}
     constructor(required = false, link = null) {
         super("JWT", required, link);
     }
@@ -1853,7 +1882,8 @@ class JwtAuthenticator extends Authenticator {
  * @type {BaseFunction}
  */
 class HTTPFunction extends BaseFunction {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HTTPFunction";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPFunction#",
+                                                      type: "celastrinajs.http.HTTPFunction"};}
     /**@param{Configuration}configuration*/
     constructor(configuration) {super(configuration);}
     /**
@@ -1931,7 +1961,8 @@ class HTTPFunction extends BaseFunction {
  * @author Robert R Murrell
  */
 class JSONHTTPFunction extends HTTPFunction {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.JSONHTTPFunction";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JSONHTTPFunction#",
+                                                      type: "celastrinajs.http.JSONHTTPFunction"};}
     /**@param{Configuration}configuration*/
     constructor(configuration) {super(configuration);}
     /**
@@ -1947,7 +1978,8 @@ class JSONHTTPFunction extends HTTPFunction {
  * @author Robert R Murrell
  */
 class MatchAlways extends ValueMatch {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.MatchAlways";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/MatchAlways#",
+                                                      type: "celastrinajs.http.MatchAlways"};}
     constructor() {
         super("MatchAlways");
     }
@@ -1965,7 +1997,8 @@ class MatchAlways extends ValueMatch {
  * @author Robert R Murrell
  */
 class HMACAuthenticator extends Authenticator {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HMACAuthenticator";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HMACAuthenticator#",
+                                                      type: "celastrinajs.http.HMACAuthenticator"};}
     constructor(required = false, link = null) {
         super("HMAC", required, link);
     }
@@ -1996,7 +2029,8 @@ class HMACAuthenticator extends Authenticator {
  * @author Robert R Murrell
  */
 class HMACConfigurationParser extends ConfigParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HMACConfigurationParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HMACConfigurationParser#",
+                                                      type: "celastrinajs.http.HMACConfigurationParser"};}
     /**
      * @param {ConfigParser} [link=null]
      * @param {string} [version="1.0.0"]
@@ -2025,7 +2059,8 @@ class HMACConfigurationParser extends ConfigParser {
  * @author Robert R Murrell
  */
 class HMACParser extends AttributeParser {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HMACParser";}
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HMACParser#",
+                                                      type: "celastrinajs.http.HMACParser"};}
     /**
      * @param {AttributeParser} link
      * @param {string} version
@@ -2066,9 +2101,10 @@ class HMACParser extends AttributeParser {
  * @author Robert R Murrell
  */
 class HMACAddOn extends AddOn {
-    /**@return{string}*/static get celastrinaType() {return "celastrinajs.http.HMACAddOn";}
-    /**@return*/static get addOnName() {return "celastrinajs.addon.http.hmac";}
-    /**@param {Array<string>} [dependencies=[HTTPAddOn.addOnName]]*/constructor(dependencies = [HTTPAddOn.addOnName]) {
+    /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HMACAddOn#",
+                                                      type: "celastrinajs.http.HMACAddOn",
+                                                      addOn: "celastrinajs.addon.http.hmac"};}
+    /**@param {Array<string>} [dependencies=[HTTPAddOn.addOnName]]*/constructor(dependencies = [HTTPAddOn.$object.addOn]) {
         super(dependencies);
         /**@type{HMAC}*/this._hmac = null;
     }
