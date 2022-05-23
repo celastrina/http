@@ -34,7 +34,8 @@ _config.addOn(_httpconfig);
 module.exports = new MyFirstFunction (_config);
 ```
 
-You will need to make a few updates to your function.json. You’ll need to add an “entryPoint” attribute with the value “execute” and insure your in/out bindings are named “req” and “res” respectively.
+You will need to make a few updates to your function.json. You’ll need to add an “entryPoint” attribute with the value 
+“execute” and insure your in/out bindings are named “req” and “res” respectively.
 
 ```
 {
@@ -56,5 +57,5 @@ You will need to make a few updates to your function.json. You’ll need to add 
 }
 ```
 
-## Documentation and More
-Please visit our [Github Wiki](https://github.com/celastrina/http-json/wiki) for more documentation and examples.
+## Documentation
+For more information please visit [@celastrina/http-json](https://github.com/celastrina/http-json/wiki) wiki on Github.
