@@ -36,7 +36,8 @@ const cookie = require("cookie");
 const {CelastrinaError, CelastrinaValidationError, AddOn,
        LOG_LEVEL, Configuration, Subject, Sentry, Algorithm, AES256Algorithm, Cryptography, RoleFactory,
        RoleFactoryParser, Context, BaseFunction, ValueMatch, AttributeParser, ConfigParser, Authenticator,
-    instanceOfCelastrinaType} = require("@celastrina/core");
+    instanceOfCelastrinaType, LifeCycle
+} = require("@celastrina/core");
 /**
  * @typedef __AzureRequestBinging
  * @property {string} originalUrl
@@ -1230,8 +1231,9 @@ class HTTPAddOn extends AddOn {
     /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/HTTPAddOn#",
                                                       type: "celastrinajs.http.HTTPAddOn",
                                                       addOn: "celastrinajs.addon.http"};}
-    /**@param {Array<string>} [dependencies=[]]*/constructor(dependencies = []) {
-        super(dependencies);
+    constructor() {
+        super([], [LifeCycle.STATE.PROCESS, LifeCycle.STATE.MONITOR, LifeCycle.STATE.EXCEPTION,
+                                      LifeCycle.STATE.TERMINATE]);
         /**@type{SessionManager}*/this._sessionManager = null;
     }
     /**@return {ConfigParser}*/getConfigParser() {
@@ -1243,6 +1245,92 @@ class HTTPAddOn extends AddOn {
     async initialize(azcontext, config) {
         /**@type{SessionManager}*/let _sm = this._sessionManager;
         if(instanceOfCelastrinaType(SessionManager, _sm)) return _sm.initialize(azcontext, config);
+    }
+    /**
+     * @param {HTTPContext} context
+     * @param {HTTPFunction} source
+     * @return {Promise<void>}
+     */
+    async _handleProcessLifecycle(context, source) {
+        let _handler = source["_" + context.method];
+        if(typeof _handler === "undefined" || _handler == null)
+            await source.unhandledRequestMethod(context);
+        else
+            await source["_" + context.method](context);
+    }
+    /**
+     * @param {HTTPContext} context
+     * @param {HTTPFunction} source
+     * @return {Promise<void>}
+     */
+    async _handleTerminateLifecycle(context, source) {
+        await context.terminate();
+    }
+    /**
+     * @param {Context | HTTPContext} context
+     * @param {HTTPFunction} source
+     * @param {null|Error|CelastrinaError|*} exception
+     * @return {Promise<void>}
+     */
+    async _handleExceptionLifecycle(context, source, exception) {
+        /**@type{null|Error|CelastrinaError|*}*/let ex = exception;
+        if(instanceOfCelastrinaType(/**@type{Class}*/CelastrinaValidationError, ex))
+            context.sendValidationError(ex);
+        else if(instanceOfCelastrinaType(/**@type{Class}*/CelastrinaError, ex))
+            context.sendServerError(ex);
+        else if(ex instanceof Error) {
+            ex = CelastrinaError.wrapError(ex);
+            context.sendServerError(ex);
+        }
+        else if(typeof ex === "undefined" || ex == null) {
+            ex = CelastrinaError.newError("Unhandled server error.");
+            context.sendServerError(ex);
+        }
+        else {
+            ex = CelastrinaError.wrapError(ex);
+            context.sendServerError(ex);
+        }
+        context.log("Request failed to process. \r\n (MESSAGE: " + ex.message + ") \r\n (STACK: " + ex.stack + ")" +
+                            " \r\n (CAUSE: " + ex.cause + ")", LOG_LEVEL.ERROR, "HTTP.exception(context, exception)");
+    }
+    /**
+     * @param {HTTPContext} context
+     * @param {HTTPFunction} source
+     * @return {Promise<void>}
+     */
+    async _handleMonitorLifecycle(context, source) {
+        let response = [{test: context.name, passed: context.monitorResponse.passed, failed: context.monitorResponse.failed,
+                         result: context.monitorResponse.result}];
+        context.send(response, 200);
+    }
+    /**
+     * @param {LifeCycle} lifecycle
+     * @returns {Promise<void>}
+     */
+    async doLifeCycle(lifecycle) {
+        switch(lifecycle.lifecycle) {
+            case LifeCycle.STATE.PROCESS:
+                await this._handleProcessLifecycle(/**@type{HTTPContext}*/lifecycle.context,
+                                                   /**@type{HTTPFunction}*/lifecycle.source);
+                break;
+            case LifeCycle.STATE.TERMINATE:
+                await this._handleTerminateLifecycle(/**@type{HTTPContext}*/lifecycle.context,
+                                                     /**@type{HTTPFunction}*/lifecycle.source);
+                break;
+            case LifeCycle.STATE.EXCEPTION:
+                await this._handleExceptionLifecycle(/**@type{HTTPContext}*/lifecycle.context,
+                                                     /**@type{HTTPFunction}*/lifecycle.source,
+                                                     lifecycle.exception);
+                break;
+            case LifeCycle.STATE.MONITOR:
+                await this._handleMonitorLifecycle(/**@type{HTTPContext}*/lifecycle.context,
+                                                   /**@type{HTTPFunction}*/lifecycle.source);
+                break;
+            default:
+                lifecycle.context.log("Unsupported lifecycle invoked '" + lifecycle.lifecycle + ".",
+                    LOG_LEVEL.WARN, "HTTPAddOn.doLifeCycle(lifecycle)");
+        }
+
     }
     /**@return{SessionManager}*/get sessionManager() {return this._sessionManager;}
     /**@param{SessionManager}sm*/set sesionManager(sm) {this._sessionManager = sm;}
@@ -1302,8 +1390,8 @@ class JwtAddOn extends AddOn {
     /**@return{Object}*/static get $object() {return {schema: "https://celastrinajs/schema/v1.0.0/http/JwtAddOn#",
                                                       type: "celastrinajs.http.JwtAddOn",
                                                       addOn: "celastrinajs.addon.http.jwt"};}
-    /**@param {Array<string>} [dependencies=[HTTPAddOn.addOnName]]*/constructor(dependencies = [HTTPAddOn.$object.addOn]) {
-        super(dependencies);
+    constructor() {
+        super([HTTPAddOn.$object.addOn]);
         /**@type{Array.<Issuer>}*/this._issuers = [];
         /**@type{HTTPParameter}*/this._tokenParameter = new HeaderParameter();
         /**@type{string}*/this._tokenName = "authorization";
@@ -1894,66 +1982,11 @@ class HTTPFunction extends BaseFunction {
         return new HTTPContext(config);
     }
     /**
-     * @param {Context | HTTPContext} context
-     * @return {Promise<void>}
-     */
-    async monitor(context) {
-        let response = [{test: context.name, passed: context.monitorResponse.passed, failed: context.monitorResponse.failed,
-                         result: context.monitorResponse.result}];
-        context.send(response, 200);
-        context.done();
-    }
-    /**
-     * @param {Context | HTTPContext} context
-     * @param {null|Error|CelastrinaError|*} exception
-     * @return {Promise<void>}
-     */
-    async exception(context, exception) {
-        /**@type{null|Error|CelastrinaError|*}*/let ex = exception;
-        if(instanceOfCelastrinaType(/**@type{Class}*/CelastrinaValidationError, ex))
-            context.sendValidationError(ex);
-        else if(instanceOfCelastrinaType(/**@type{Class}*/CelastrinaError, ex))
-            context.sendServerError(ex);
-        else if(ex instanceof Error) {
-            ex = CelastrinaError.wrapError(ex);
-            context.sendServerError(ex);
-        }
-        else if(typeof ex === "undefined" || ex == null) {
-            ex = CelastrinaError.newError("Unhandled server error.");
-            context.sendServerError(ex);
-        }
-        else {
-            ex = CelastrinaError.wrapError(ex);
-            context.sendServerError(ex);
-        }
-        context.log("Request failed to process. \r\n (MESSAGE: " + ex.message + ") \r\n (STACK: " + ex.stack + ")" +
-                            " \r\n (CAUSE: " + ex.cause + ")", LOG_LEVEL.ERROR, "HTTP.exception(context, exception)");
-    }
-    /**
      * @param {Context & HTTPContext} context
      * @return {Promise<void>}
      */
     async unhandledRequestMethod(context) {
         throw CelastrinaError.newError("HTTP Method '" + context.method + "' not supported.", 501);
-    }
-    /**
-     * @param {Context | HTTPContext} context
-     * @return {Promise<void>}
-     */
-    async process(context) {
-        let _handler = this["_" + context.method];
-        if(typeof _handler === "undefined" || _handler == null)
-            await this.unhandledRequestMethod(context);
-        else
-            await this["_" + context.method](context);
-    }
-
-    /**
-     * @param {Context | HTTPContext} context
-     * @return {Promise<void>}
-     */
-    async terminate(context) {
-        await context.terminate();
     }
 }
 /**
