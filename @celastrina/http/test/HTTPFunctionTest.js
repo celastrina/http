@@ -131,14 +131,12 @@ class MockHTTPFunction extends HTTPFunction {
                 smocka = await context.session.getProperty("mockA");
                 smockb = await context.session.getProperty("mockB");
                 context.send("<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><p>mockA=" + smocka + "<br />mockB=" + smockb + "</p></body></html>");
-                context.done();
                 break;
             case "session_test":
                 context.log("session_test GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
                 smocka = await context.session.getProperty("mockA");
                 smockb = await context.session.getProperty("mockB");
                 context.send("<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><p>mockA=" + smocka + "<br />mockB=" + smockb + "</p></body></html>");
-                context.done();
                 break;
             case "session_subject":
                 context.log("session_subject GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
@@ -146,56 +144,45 @@ class MockHTTPFunction extends HTTPFunction {
                 smockb = await context.session.getProperty("mockB");
                 let subject = context.subject.id;
                 context.send("<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><p>subject=" + subject + "<br />mockA=" + smocka + "<br />mockB=" + smockb + "</p></body></html>");
-                context.done();
                 break;
             case "default":
                 context.log("default GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
-                context.done();
                 break;
             default:
                 context.log("switch() default: GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
-                context.done();
         }
     }
     async _put(context) {
         this.dummyFunction(context);
         this._putInvoked = true;
-        context.done();
     }
     async _post(context) {
         this.dummyFunction(context);
         this._postInvoked = true;
-        context.done();
     }
     async _delete(context) {
         this.dummyFunction(context);
         this._deleteInvoked = true;
-        context.done();
     }
     async _head(context) {
         this.dummyFunction(context);
         this._headInvoked = true;
-        context.done();
     }
     async _options(context) {
         this.dummyFunction(context);
         this._optionInvoked = true;
-        context.done();
     }
     async _patch(context) {
         this.dummyFunction(context);
         this._patchInvoked = true;
-        context.done();
     }
     async _connect(context) {
         this.dummyFunction(context);
         this._connectInvoked = true;
-        context.done();
     }
     async _trace(context) {
         this.dummyFunction(context);
         this._traceInvoked = true;
-        context.done();
     }
 }
 
@@ -240,7 +227,7 @@ describe("HTTPFunction", () => {
             _azctx.req.originalUrl = "https://api.celastrinajs.com";
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>", "Expected default HTML.");
         });
         it("should responed with default payload, multiple requests.", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -262,19 +249,19 @@ describe("HTTPFunction", () => {
             _azctx.req.originalUrl = "https://api.celastrinajs.com";
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>", "Expected default HTML.");
             _function.reset();
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>", "Expected default HTML.");
             _function.reset();
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>", "Expected default HTML.");
             _function.reset();
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 200, "Expected 200.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body>200, Success</body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>", "Expected default HTML.");
         });
         it("should responed read existing session", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -319,7 +306,7 @@ describe("HTTPFunction", () => {
             _azctx.req.originalUrl = "https://api.celastrinajs.com";
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 403, "Expected 403.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>403 - Forbidden</header><main><p><h2>Forbidden.</h2></main><footer>celastrinajs</footer></body></html>", "Expected 403 HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>mock_function</title></head><body><header>403 - Forbidden.</header><main></main><footer>Powered by celastrinajs</footer></body></html>", "Expected 403 HTML.");
         });
         it("should fail with 501, CUSTOM not supported", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -344,7 +331,7 @@ describe("HTTPFunction", () => {
             _azctx.req.originalUrl = "https://api.celastrinajs.com";
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 501, "Expected 501.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>501 - Internal Server Error</header><main><p><h2>HTTP Method 'custom' not supported.</h2></main><footer>celastrinajs</footer></body></html>", "Expected 501 HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>mock_function</title></head><body><header>501 - HTTP Method 'custom' not supported.</header><main></main><footer>Powered by celastrinajs</footer></body></html>", "Expected 501 HTML.");
         });
         it("should succeed with GET permission", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -392,7 +379,7 @@ describe("HTTPFunction", () => {
             _azctx.req.originalUrl = "https://api.celastrinajs.com";
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 403, "Expected 403.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>403 - Forbidden</header><main><p><h2>Forbidden.</h2></main><footer>celastrinajs</footer></body></html>", "Expected 403 HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>mock_function</title></head><body><header>403 - Forbidden.</header><main></main><footer>Powered by celastrinajs</footer></body></html>", "Expected 403 HTML.");
         });
         it("should set cookie with new session", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -477,7 +464,7 @@ describe("HTTPFunction", () => {
             await _mockopenid.stop();
 
             assert.strictEqual(_azctx.res.status, 401, "Expected 401.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>401 - Not Authorized</header><main><p><h2>Not Authorized.</h2></main><footer>celastrinajs</footer></body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>mock_function</title></head><body><header>401 - Not Authorized.</header><main></main><footer>Powered by celastrinajs</footer></body></html>", "Expected default HTML.");
         });
         it("should fail jwt, issuer", async () => {
             let _mockopenid = new MockMicrosoftOpenIDIDPServer();
@@ -507,7 +494,7 @@ describe("HTTPFunction", () => {
             await _mockopenid.stop();
 
             assert.strictEqual(_azctx.res.status, 401, "Expected 401.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>401 - Not Authorized</header><main><p><h2>Not Authorized.</h2></main><footer>celastrinajs</footer></body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>mock_function</title></head><body><header>401 - Not Authorized.</header><main></main><footer>Powered by celastrinajs</footer></body></html>", "Expected default HTML.");
         });
     });
     describe("#execute(azcontext) with JWT header and session roles", () => {
@@ -573,7 +560,7 @@ describe("HTTPFunction", () => {
             await _mockopenid.stop();
 
             assert.strictEqual(_azctx.res.status, 403, "Expected 403.");
-            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>HTTPFunctionTest</title></head><body><header>403 - Forbidden</header><main><p><h2>Forbidden.</h2></main><footer>celastrinajs</footer></body></html>", "Expected default HTML.");
+            assert.strictEqual(_azctx.res.body, "<html lang=\"en\"><head><title>mock_function</title></head><body><header>403 - Forbidden.</header><main></main><footer>Powered by celastrinajs</footer></body></html>", "Expected default HTML.");
         });
     });
 });

@@ -39,7 +39,7 @@ const {CelastrinaError, CelastrinaValidationError, AddOn,
     instanceOfCelastrinaType, LifeCycle
 } = require("@celastrina/core");
 /**
- * @typedef __AzureRequestBinging
+ * @typedef _AzureRequestBinging
  * @property {string} originalUrl
  * @property {string} method
  * @property {Object} query
@@ -49,7 +49,7 @@ const {CelastrinaError, CelastrinaValidationError, AddOn,
  * @property {string} rawBody
  */
 /**
- * @typedef __AzureResponseBinging
+ * @typedef _AzureResponseBinging
  * @property {Object} headers
  * @property {number} status
  * @property {Object} body
@@ -57,9 +57,31 @@ const {CelastrinaError, CelastrinaValidationError, AddOn,
  * @property {Array.<Object>} cookies
  */
 /**
- * @typedef __AzureFunctionContext
- * @property {__AzureRequestBinging} req
- * @property {__AzureResponseBinging} res
+ * @typedef _AZLogger
+ * @function error
+ * @function warn
+ * @function info
+ * @function verbose
+ */
+/**
+ * @typedef _TraceContext
+ * @property {string} traceparent
+ */
+/**
+ * @typedef _ExecutionContext
+ * @property {string} invocationId
+ * @property {string} functionName
+ * @property {string} functionDirectory
+ */
+/**
+ * @typedef _AzureFunctionContext
+ * @property {_ExecutionContext} executionContext
+ * @property {_TraceContext} traceContext
+ * @property {_AZLogger} log
+ * @property {Object} bindings
+ * @property {_AzureRequestBinging} req
+ * @property {_AzureResponseBinging} res
+ * @property {Object} bindingData
  */
 /**
  * @typedef _jwtpayload
@@ -189,8 +211,8 @@ class Cookie {
      * @param {string} name
      * @param {(null|string)} [value=null]
      * @param {Object} [options={}]
-     * @returns {Cookie} A new cookie whos dirty marker is set to 'true', such that doSerializeCookie will generte a value to
-     *                   the Set-Cookie header.
+     * @returns {Cookie} A new cookie whos dirty marker is set to 'true', such that doSerializeCookie will generte a
+     *     value to the Set-Cookie header.
      */
     static newCookie(name, value = null, options = {}) {
         return new Cookie(name, value, options, true);
@@ -199,8 +221,8 @@ class Cookie {
      * @param {string} name
      * @param {(null|string)} [value=null]
      * @param {Object} [options={}]
-     * @returns {Promise<Cookie>} A new cookie whos dirty marker is set to 'false', such that doSerializeCookie will NOT generte a value to
-     *                            the Set-Cookie header.
+     * @returns {Promise<Cookie>} A new cookie whos dirty marker is set to 'false', such that doSerializeCookie will
+     *     NOT generte a value to the Set-Cookie header.
      */
     static async loadCookie(name, value = null, options = {}) {
         return new Cookie(name, value, options);
@@ -208,8 +230,8 @@ class Cookie {
     /**
      * @param {string} value
      * @param {Array.<Cookie>} [results=[]];
-     * @returns {Promise<Array.<Cookie>>} A new cookie whos dirty marker is set to 'false', such that doSerializeCookie will NOT generte a value to
-     *                                    the Set-Cookie header.
+     * @returns {Promise<Array.<Cookie>>} A new cookie whos dirty marker is set to 'false', such that doSerializeCookie
+     *     will NOT generte a value to the Set-Cookie header.
      */
     static async parseCookies(value,results = []) {
         let _cookies = cookie.parse(value);
@@ -328,8 +350,8 @@ class Issuer {
     /**
      * @param {null|string} issuer
      * @param {(Array.<string>|null)} [audiences=null]
-     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token is
-     *        valid for this issuer.
+     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token
+     *     is valid for this issuer.
      * @param {boolean} [validateNonce=false]
      */
     constructor(issuer = null, audiences = null, assignments = null,
@@ -413,8 +435,8 @@ class LocalJwtIssuer extends Issuer {
      * @param {(null|string)} issuer
      * @param {(null|string)} key
      * @param {(Array.<string>|null)} [audiences=null]
-     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token is
-     *        valid for this issuer.
+     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token
+     *     is valid for this issuer.
      * @param {boolean} [validateNonce=false]
      */
     constructor(issuer = null, key = null, audiences = null,
@@ -437,10 +459,13 @@ class LocalJwtIssuer extends Issuer {
  * OpenIDJwtValidator
  * @description Use the following OpenID IDP's for  OpenIDJwtValidator
  *              <ul>
- *                  <li>Microsoft Azure AD IDP: https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration</li>
- *                  <li>Microsoft Azure ADB2C IDP: https://[tenant name].b2clogin.com/[tenant name].onmicrosoft.com/{claim[tfp]}/v2.0/.well-known/openid-configuration</li>
+ *                  <li>Microsoft Azure AD IDP:
+ *     https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration</li>
+ *                  <li>Microsoft Azure ADB2C IDP: https://[tenant name].b2clogin.com/[tenant
+ *     name].onmicrosoft.com/{claim[tfp]}/v2.0/.well-known/openid-configuration</li>
  *              </ul>
- *              All values in curly-brace {} will be replaced with a value from the claim name {claim} in the decoded JWT.
+ *              All values in curly-brace {} will be replaced with a value from the claim name {claim} in the decoded
+ *     JWT.
  * @author Robert R Murrell
  */
 class OpenIDJwtIssuer extends Issuer {
@@ -450,8 +475,8 @@ class OpenIDJwtIssuer extends Issuer {
      * @param {null|string} issuer
      * @param {null|string} configUrl
      * @param {(Array.<string>|null)} [audiences=null]
-     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token is
-     *        valid for this issuer.
+     * @param {(Array.<string>|null)} [assignments=[]] The role assignments to escalate the subject to if the JWT token
+     *     is valid for this issuer.
      * @param {boolean} [validateNonce=false]
      */
     constructor(issuer = null, configUrl = null, audiences = null,
@@ -1506,7 +1531,8 @@ class HTTPContext extends Context {
         if(this.method === "trace") monitor = true;
         else {
             monitor = this._config.context.req.query["monitor"];
-            if (typeof monitor === "undefined" || monitor == null) monitor = this._config.context.req.headers["x-celastrina-monitor"];
+            if (typeof monitor === "undefined" || monitor == null)
+                monitor = this._config.context.req.headers["x-celastrina-monitor"];
             monitor = (typeof monitor === "string") ? (monitor === "true") : false;
         }
         this._monitor = monitor;
@@ -1544,7 +1570,7 @@ class HTTPContext extends Context {
         await super.initialize();
         this._config.context.res.status = 200;
         this._config.context.res.headers["Content-Type"] = "text/html; charset=ISO-8859-1";
-        this._config.context.res.body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body>200, Success</body></html>";
+        this._config.context.res.body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>";
         /**@type{string}*/this._action = this._config.context.req.method.toLowerCase();
         await this._setMonitorMode();
         await this._setRequestId();
@@ -1741,7 +1767,7 @@ class HTTPContext extends Context {
      */
     sendValidationError(error = null, body = null) {
         if(error == null) error = CelastrinaValidationError.newValidationError("bad request");
-        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>400 - Bad Request</header><main><p><h2>" + error.message + "</h2><br />" + error.tag + "</p></main><footer>celastrinajs</footer></body></html>";
+        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>400 - Bad Request</header><main><p><h2>" + error.message + "</h2><br />" + error.tag + "</p></main><footer>Powered by celastrinajs.</footer></body></html>";
         this.send(body, error.code);
     }
     /**
@@ -1750,7 +1776,7 @@ class HTTPContext extends Context {
      */
     sendRedirect(url, body = null) {
         this._config.context.res.headers["Location"] = url;
-        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>302 - Redirect</header><main><p><h2>" + url + "</h2></main><footer>celastrinajs</footer></body></html>";
+        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>302 - Redirect</header><main><p><h2>" + url + "</h2></main><footer>Pwered by celastrinajs.</footer></body></html>";
         this.send(body, 302);
     }
     /**@param{string}url*/sendRedirectForwardBody(url) {this.sendRedirect(url, this._config.context.req.body);}
@@ -1773,7 +1799,7 @@ class HTTPContext extends Context {
                 this.sendValidationError(error);
                 break;
             default:
-                if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>" + error.code + " - Internal Server Error</header><main><p><h2>" + error.message + "</h2></main><footer>celastrinajs</footer></body></html>";
+                if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>" + error.code + " - Internal Server Error</header><main><p><h2>" + error.message + "</h2></main><footer>Powered by celastrinajs.</footer></body></html>";
                 this.send(body, error.code);
         }
     }
@@ -1784,7 +1810,7 @@ class HTTPContext extends Context {
     sendNotAuthorizedError(error= null, body = null) {
         if(error == null) error = CelastrinaError.newError("Not Authorized.", 401);
         else if(!instanceOfCelastrinaType(/**@type{Class}*/CelastrinaError, error)) error = CelastrinaError.wrapError(error, 401);
-        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>401 - Not Authorized</header><main><p><h2>" + error.message + "</h2></main><footer>celastrinajs</footer></body></html>";
+        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>401 - Not Authorized</header><main><p><h2>" + error.message + "</h2></main><footer>Powered by celastrinajs.</footer></body></html>";
         this.send(body, 401);
     }
     /**
@@ -1794,7 +1820,7 @@ class HTTPContext extends Context {
     sendForbiddenError(error = null, body = null) {
         if(error == null) error = CelastrinaError.newError("Forbidden.", 403);
         else if(!instanceOfCelastrinaType(/**@type{Class}*/CelastrinaError, error)) error = CelastrinaError.wrapError(error, 403);
-        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>403 - Forbidden</header><main><p><h2>" + error.message + "</h2></main><footer>celastrinajs</footer></body></html>";
+        if(body == null) body = "<html lang=\"en\"><head><title>" + this._config.name + "</title></head><body><header>403 - Forbidden</header><main><p><h2>" + error.message + "</h2></main><footer>Powered by celastrinajs.</footer></body></html>";
         this.send(body, 403);
     }
 }
@@ -1818,7 +1844,7 @@ class JSONHTTPContext extends HTTPContext {
         this._config.context.res.body = {name: this._config.name, code: 200, message: "Success! Welcome to celastrinajs."};
     }
     /**
-     * @param {*} error
+     * @param {CelastrinaError|CelastrinaValidationError} error
      * @param {(null|number)} code
      */
     sendCelastrinaError(error, code = null) {
@@ -1988,6 +2014,22 @@ class HTTPFunction extends BaseFunction {
     async unhandledRequestMethod(context) {
         throw CelastrinaError.newError("HTTP Method '" + context.method + "' not supported.", 501);
     }
+    /**
+     * @param {_AzureFunctionContext} azcontext
+     * @param {Context|HTTPContext} context
+     * @param {CelastrinaError} error
+     * @return {Promise<void>}
+     * @private
+     */
+    async _onError(azcontext, context, error) {
+        azcontext.res.status = error.code;
+        azcontext.res.headers["X-celastrinajs-invocationId"] = azcontext.executionContext.invocationId;
+        azcontext.res.headers["Content-Type"] = "text/html; charset=UTF-8";
+        azcontext.res.body = "<html lang=\"en\">" +
+                             "<head><title>" + azcontext.executionContext.functionName + "</title></head>" +
+                             "<body><header>" + error.code + " - " + error.message + "</header>" +
+                             "<main></main><footer>Powered by celastrinajs</footer></body></html>";
+    }
 }
 /**
  * JSONHTTPFunction
@@ -2004,6 +2046,19 @@ class JSONHTTPFunction extends HTTPFunction {
      */
     async createContext(config) {
         return new JSONHTTPContext(config);
+    }
+    /**
+     * @param {_AzureFunctionContext} azcontext
+     * @param {Context|HTTPContext} context
+     * @param {CelastrinaError} error
+     * @return {Promise<void>}
+     * @private
+     */
+    async _onError(azcontext, context, error) {
+        azcontext.res.status = error.code;
+        azcontext.res.headers["X-celastrinajs-invocationId"] = azcontext.executionContext.invocationId;
+        azcontext.res.headers["Content-Type"] = "application/json; charset=UTF-8";
+        azcontext.res.body = {name: error.name, message: error.message, code: error.code, drop: error.drop};
     }
 }
 /**
