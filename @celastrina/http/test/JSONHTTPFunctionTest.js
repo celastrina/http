@@ -88,7 +88,6 @@ class MockJSONHTTPFunction extends JSONHTTPFunction {
                 smocka = await context.session.getProperty("mockA");
                 smockb = await context.session.getProperty("mockB");
                 context.send({mockA: smocka, mockB: smockb});
-                context.done();
                 break;
             case "session_test":
                 if(context.session == null) {
@@ -99,7 +98,6 @@ class MockJSONHTTPFunction extends JSONHTTPFunction {
                 smocka = await context.session.getProperty("mockA");
                 smockb = await context.session.getProperty("mockB");
                 context.send({mockA: smocka, mockB: smockb});
-                context.done();
                 break;
             case "session_subject":
                 if(context.session == null) {
@@ -111,48 +109,37 @@ class MockJSONHTTPFunction extends JSONHTTPFunction {
                 smockb = await context.session.getProperty("mockB");
                 let subject = context.subject.id;
                 context.send({subject: subject, mockA: smocka, mockB: smockb});
-                context.done();
                 break;
             case "default":
                 context.log("default GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
-                context.done();
                 break;
             default:
                 context.log("switch() default: GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
-                context.done();
         }
     }
     async _put(context) {
         context.azureFunctionContext._putInvoked = true;
-        context.done();
     }
     async _post(context) {
         context.azureFunctionContext._postInvoked = true;
-        context.done();
     }
     async _delete(context) {
         context.azureFunctionContext._deleteInvoked = true;
-        context.done();
     }
     async _head(context) {
         context.azureFunctionContext._headInvoked = true;
-        context.done();
     }
     async _options(context) {
         context.azureFunctionContext._optionInvoked = true;
-        context.done();
     }
     async _patch(context) {
         context.azureFunctionContext._patchInvoked = true;
-        context.done();
     }
     async _connect(context) {
         context.azureFunctionContext._connectInvoked = true;
-        context.done();
     }
     async _trace(context) {
         context.azureFunctionContext._traceInvoked = true;
-        context.done();``
     }
 }
 
@@ -245,7 +232,7 @@ describe("JSONHTTPFunction", () => {
 
             await _function.execute(_azctx);
             assert.strictEqual(_azctx.res.status, 403, "Expected 403.");
-            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", tag: null, cause: null, code: 403, drop: false}, "Expected 403 JSON.");
+            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", code: 403, drop: false}, "Expected 403 JSON.");
         });
         it("should fail with 403, CUSTOM not authorized", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -270,8 +257,7 @@ describe("JSONHTTPFunction", () => {
             await _function.execute(_azctx);
 
             assert.strictEqual(_azctx.res.status, 403, "Expected 403.");
-            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.",
-                                                             tag: null, cause: null, code: 403, drop: false}, "Expected 403 JSON.");
+            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", code: 403, drop: false}, "Expected 403 JSON.");
         });
         it("should succeed with GET permission", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -321,7 +307,7 @@ describe("JSONHTTPFunction", () => {
             await _function.execute(_azctx);
 
             assert.strictEqual(_azctx.res.status, 403, "Expected 401.");
-            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", tag: null, cause: null, code: 403, drop: false}, "Expected 403 HTML.");
+            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", code: 403, drop: false}, "Expected 403 HTML.");
         });
         it("should set cookie with new session", async () => {
             let _azctx  = new MockAzureFunctionContext();
@@ -412,7 +398,7 @@ describe("JSONHTTPFunction", () => {
             await _mockopenid.stop();
 
             assert.strictEqual(_azctx.res.status, 401, "Expected 401.");
-            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Not Authorized.", tag: null, cause: null, code: 401, drop: false}, "Expected default HTML.");
+            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Not Authorized.", code: 401, drop: false}, "Expected default HTML.");
         });
         it("should fail jwt, issuer", async () => {
             let _mockopenid = new MockMicrosoftOpenIDIDPServer();
@@ -443,7 +429,7 @@ describe("JSONHTTPFunction", () => {
             await _mockopenid.stop();
 
             assert.strictEqual(_azctx.res.status, 401, "Expected 401.");
-            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Not Authorized.", tag: null, cause: null, code: 401, drop: false}, "Expected default HTML.");
+            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Not Authorized.", code: 401, drop: false}, "Expected default HTML.");
         });
     });
     describe("#execute(azcontext) with JWT header and session roles", () => {
@@ -509,7 +495,7 @@ describe("JSONHTTPFunction", () => {
             await _mockopenid.stop();
 
             assert.strictEqual(_azctx.res.status, 403, "Expected 403.");
-            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", tag: null, cause: null, code: 403, drop: false}, "Expected default HTML.");
+            assert.deepStrictEqual(_azctx.res.body, {name:"CelastrinaError", message: "Forbidden.", code: 403, drop: false}, "Expected default HTML.");
         });
         it("should load from config, pass jwt OpenID and load session", async () => {
             let _mockopenid = new MockMicrosoftOpenIDIDPServer();

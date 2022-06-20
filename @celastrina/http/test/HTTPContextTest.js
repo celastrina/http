@@ -75,7 +75,7 @@ describe("HTTPContext", () => {
             await _context.initialize();
             assert.deepStrictEqual(_azcontext.res.status, 200, "Expected status 200.");
             assert.deepStrictEqual(_azcontext.res.headers["Content-Type"], "text/html; charset=ISO-8859-1", "Expected Content Type Header.");
-            assert.deepStrictEqual(_azcontext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body>200, Success</body></html>", "Expected default HTML body.");
+            assert.deepStrictEqual(_azcontext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>200, Success</header><footer>Powered by celastrinajs.</footer></body></html>", "Expected default HTML body.");
         });
     });
     describe("getter/setters", () => {
@@ -365,7 +365,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaValidationError.newValidationError("Invalid Message", "test.message");
             _context.sendValidationError(_response);
             assert.strictEqual(_context.azureFunctionContext.res.status, 400, "Expected status code 400.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>400 - Bad Request</header><main><p><h2>Invalid Message</h2><br />test.message</p></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>400 - Bad Request</header><main><p><h2>Invalid Message</h2><br />test.message</p></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends validation error, null error", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -374,7 +374,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaValidationError.newValidationError("bad request");
             _context.sendValidationError();
             assert.strictEqual(_context.azureFunctionContext.res.status, 400, "Expected status code 400.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>400 - Bad Request</header><main><p><h2>bad request</h2><br /></p></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>400 - Bad Request</header><main><p><h2>bad request</h2><br /></p></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends redirect, body null", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -383,7 +383,7 @@ describe("HTTPContext", () => {
             _context.sendRedirect("https://www.google.com");
             assert.strictEqual(_context.azureFunctionContext.res.status, 302, "Expected status code 302.");
             assert.deepStrictEqual(await _context.getResponseHeader("Location"), "https://www.google.com", "Expected location header 'https://www.google.com'.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>302 - Redirect</header><main><p><h2>https://www.google.com</h2></main><footer>celastrinajs</footer></body></html>", "Expected null body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>302 - Redirect</header><main><p><h2>https://www.google.com</h2></main><footer>Pwered by celastrinajs.</footer></body></html>", "Expected null body.");
         });
         it("Sends redirect", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -411,7 +411,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaError.newError("Internal Server Error.");
             _context.sendServerError();
             assert.strictEqual(_context.azureFunctionContext.res.status, 500, "Expected status code 500.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>500 - Internal Server Error</header><main><p><h2>Internal Server Error.</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>500 - Internal Server Error</header><main><p><h2>Internal Server Error.</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends server error, error not Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -420,7 +420,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaError.newError("New Error");
             _context.sendServerError(new Error("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 500, "Expected status code 500.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>500 - Internal Server Error</header><main><p><h2>New Error</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>500 - Internal Server Error</header><main><p><h2>New Error</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends server error, error Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -429,7 +429,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaError.newError("New Error");
             _context.sendServerError(CelastrinaError.newError("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 500, "Expected status code 500.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>500 - Internal Server Error</header><main><p><h2>New Error</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>500 - Internal Server Error</header><main><p><h2>New Error</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends not authorized error, error null", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -438,7 +438,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaError.newError("Not Authorized.", 401);
             _context.sendNotAuthorizedError();
             assert.strictEqual(_context.azureFunctionContext.res.status, 401, "Expected status code 401.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>401 - Not Authorized</header><main><p><h2>Not Authorized.</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>401 - Not Authorized</header><main><p><h2>Not Authorized.</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends not authorized error, error not Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -447,7 +447,7 @@ describe("HTTPContext", () => {
             let _response = CelastrinaError.newError("New Error", 401);
             _context.sendNotAuthorizedError(new Error("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 401, "Expected status code 401.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>401 - Not Authorized</header><main><p><h2>New Error</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>401 - Not Authorized</header><main><p><h2>New Error</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends not authorized error, error Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -456,7 +456,7 @@ describe("HTTPContext", () => {
             await _context.initialize();
             _context.sendNotAuthorizedError(CelastrinaError.newError("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 401, "Expected status code 401.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>401 - Not Authorized</header><main><p><h2>New Error</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>401 - Not Authorized</header><main><p><h2>New Error</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends Forbidden error, error null", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -464,7 +464,7 @@ describe("HTTPContext", () => {
             let _context = new MockHTTPContext(_config);
             _context.sendForbiddenError();
             assert.strictEqual(_context.azureFunctionContext.res.status, 403, "Expected status code 403.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>403 - Forbidden</header><main><p><h2>Forbidden.</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>403 - Forbidden</header><main><p><h2>Forbidden.</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends Forbidden error, error not Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -472,7 +472,7 @@ describe("HTTPContext", () => {
             let _context = new MockHTTPContext(_config);
             _context.sendForbiddenError(new Error("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 403, "Expected status code 403.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>403 - Forbidden</header><main><p><h2>New Error</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>403 - Forbidden</header><main><p><h2>New Error</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
         it("Sends Forbidden error, error Celastrina", async () => {
             let _config = new Configuration("MockHTTPContext");
@@ -481,7 +481,7 @@ describe("HTTPContext", () => {
             await _context.initialize();
             _context.sendForbiddenError(CelastrinaError.newError("New Error"));
             assert.strictEqual(_context.azureFunctionContext.res.status, 403, "Expected status code 403.");
-            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>403 - Forbidden</header><main><p><h2>New Error</h2></main><footer>celastrinajs</footer></body></html>", "Expected _response body.");
+            assert.deepStrictEqual(_context.azureFunctionContext.res.body, "<html lang=\"en\"><head><title>MockHTTPContext</title></head><body><header>403 - Forbidden</header><main><p><h2>New Error</h2></main><footer>Powered by celastrinajs.</footer></body></html>", "Expected _response body.");
         });
     });
 });
