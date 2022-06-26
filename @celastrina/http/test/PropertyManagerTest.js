@@ -29,8 +29,8 @@ const assert = require("assert");
 "use strict";
 
 process.env["mock_env_var_one"]   = "mock_env_val_one";
-process.env["mock_env_var_two"]   = 42;
-process.env["mock_env_var_three"] = true;
+process.env["mock_env_var_two"]   = "42";
+process.env["mock_env_var_three"] = "true";
 process.env["mock_env_var_four"]  = "{\"key\": \"mock_key\", \"value\": \"mock_value\"}";
 process.env["mock_env_var_five"]  = "1995-12-17T03:24:00";
 process.env["mock_env_var_regexp"]  = "/.*/g";

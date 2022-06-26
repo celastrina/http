@@ -45,6 +45,7 @@
     },
     {
       "$object": {"contentType": "application/vnd.celastrinajs.config+json;HMAC"},
+        "required": false,
         "hmac": {"$object": {"contentType": "application/vnd.celastrinajs.attribute+json;HMAC"},
           "secret": "",
           "parameter": {"$object": {"contentType": "application/vnd.celastrinajs.attribute+json;HTTPParameter"},
