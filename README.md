@@ -21,7 +21,7 @@ class MyFirstFunction extends JSONHTTPFunction {
         super(config);
     } 
 
-    async _get(context) {
+    async get(context) {
         context.log(“Welcome to Celastrina!”, LOG_LEVEL.INFO, “MyFirstFunction._get(context)”);
         context.send({name: “sample”, message: }); // Return whatever object you’d like
     }
