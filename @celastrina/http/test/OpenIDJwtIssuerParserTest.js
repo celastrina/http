@@ -21,13 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, Cryptography, BaseRoleFactory} = require("@celastrina/core");
-const {OpenIDJwtIssuer, OpenIDJwtIssuerParser} = require("../HTTP");
+const {OpenIDJwtIssuerParser} = require("../HTTP");
+const {MockPropertyManager} = require("./PropertyManagerTest");
 const assert = require("assert");
 
 describe("OpenIDJwtIssuerParser", () => {
     describe("#_create(_LocalJwtIssuer)", () => {
         it("creates a new OpenIDJwtIssuer", async () => {
+            let pm = new MockPropertyManager();
             let _parser = new OpenIDJwtIssuerParser();
             let _OpenIDJwtIssuer = {_content: {type: "application/vnd.celastrinajs.attribute+json;_OpenIDJwtIssuer"},
                 issuer: "@celastrinajs/issuer/mock",
@@ -35,7 +36,7 @@ describe("OpenIDJwtIssuerParser", () => {
                 assignments: ["assignment_a"],
                 configURL: "https://www.configurl.com/some/uri",
                 validateNonce: true};
-            let _issuer = await _parser._create(_OpenIDJwtIssuer);
+            let _issuer = await _parser._create(_OpenIDJwtIssuer, pm);
             assert.strictEqual(_issuer.issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_issuer.configURL, "https://www.configurl.com/some/uri", "Expected 'https://www.configurl.com/some/uri'.");
             assert.deepStrictEqual(_issuer.audiences, ["celastrinajs_mock_aud"], "Expected ['celastrinajs_mock_aud'].");
@@ -43,12 +44,13 @@ describe("OpenIDJwtIssuerParser", () => {
             assert.strictEqual(_issuer.validateNonce, true, "Expected true.");
         });
         it("creates a default OpenIDJwtIssuer", async () => {
+            let pm = new MockPropertyManager();
             let _parser = new OpenIDJwtIssuerParser();
             let _OpenIDJwtIssuer = {_content: {type: "application/vnd.celastrinajs.attribute+json;_OpenIDJwtIssuer"},
                 issuer: "@celastrinajs/issuer/mock",
                 audiences: ["celastrinajs_mock_aud"],
                 configURL: "https://www.configurl.com/some/uri"};
-            let _issuer = await _parser._create(_OpenIDJwtIssuer);
+            let _issuer = await _parser._create(_OpenIDJwtIssuer, pm);
             assert.strictEqual(_issuer.issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_issuer.configURL, "https://www.configurl.com/some/uri", "Expected 'https://www.configurl.com/some/uri'.");
             assert.deepStrictEqual(_issuer.audiences, ["celastrinajs_mock_aud"], "Expected ['celastrinajs_mock_aud'].");

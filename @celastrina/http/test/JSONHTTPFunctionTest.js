@@ -72,7 +72,7 @@ class MockJSONHTTPFunction extends JSONHTTPFunction {
      * @param {JSONHTTPContext} context
      * @return {Promise<void>}
      */
-    async _get(context) {
+    async get(context) {
         context.azureFunctionContext._getInvoked = true;
         let smocka = null;
         let smockb = null;
@@ -117,28 +117,28 @@ class MockJSONHTTPFunction extends JSONHTTPFunction {
                 context.log("switch() default: GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
         }
     }
-    async _put(context) {
+    async put(context) {
         context.azureFunctionContext._putInvoked = true;
     }
-    async _post(context) {
+    async post(context) {
         context.azureFunctionContext._postInvoked = true;
     }
-    async _delete(context) {
+    async delete(context) {
         context.azureFunctionContext._deleteInvoked = true;
     }
-    async _head(context) {
+    async head(context) {
         context.azureFunctionContext._headInvoked = true;
     }
-    async _options(context) {
+    async options(context) {
         context.azureFunctionContext._optionInvoked = true;
     }
-    async _patch(context) {
+    async patch(context) {
         context.azureFunctionContext._patchInvoked = true;
     }
-    async _connect(context) {
+    async connect(context) {
         context.azureFunctionContext._connectInvoked = true;
     }
-    async _trace(context) {
+    async trace(context) {
         context.azureFunctionContext._traceInvoked = true;
     }
 }

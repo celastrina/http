@@ -21,13 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, Cryptography, BaseRoleFactory} = require("@celastrina/core");
-const {LocalJwtIssuer, LocalJwtIssuerParser} = require("../HTTP");
+const {LocalJwtIssuerParser} = require("../HTTP");
+const {MockPropertyManager} = require("./PropertyManagerTest");
 const assert = require("assert");
 
 describe("LocalJwtIssuerParser", () => {
     describe("#_create(_LocalJwtIssuer)", () => {
         it("creates a new LocalJwtIssuer", async () => {
+            let pm = new MockPropertyManager();
             let _parser = new LocalJwtIssuerParser();
             let _LocalJwtIssuer = {_content: {type: "application/vnd.celastrinajs.attribute+json;LocalJwtIssuer"},
                                    issuer: "@celastrinajs/issuer/mock",
@@ -35,7 +36,7 @@ describe("LocalJwtIssuerParser", () => {
                                    assignments: ["assignment_a"],
                                    key: "celastrinajsmocktoken_key",
                                    validateNonce: true};
-            let _issuer = await _parser._create(_LocalJwtIssuer);
+            let _issuer = await _parser._create(_LocalJwtIssuer, pm);
             assert.strictEqual(_issuer.issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_issuer.key, "celastrinajsmocktoken_key", "Expected 'celastrinajsmocktoken_key'.");
             assert.deepStrictEqual(_issuer.audiences, ["celastrinajs_mock_aud"], "Expected ['celastrinajs_mock_aud'].");
@@ -43,12 +44,13 @@ describe("LocalJwtIssuerParser", () => {
             assert.strictEqual(_issuer.validateNonce, true, "Expected true.");
         });
         it("creates a default LocalJwtIssuer", async () => {
+            let pm = new MockPropertyManager();
             let _parser = new LocalJwtIssuerParser();
             let _LocalJwtIssuer = {_content: {type: "application/vnd.celastrinajs.attribute+json;LocalJwtIssuer"},
                 issuer: "@celastrinajs/issuer/mock",
                 audiences: ["celastrinajs_mock_aud"],
                 key: "celastrinajsmocktoken_key"};
-            let _issuer = await _parser._create(_LocalJwtIssuer);
+            let _issuer = await _parser._create(_LocalJwtIssuer, pm);
             assert.strictEqual(_issuer.issuer, "@celastrinajs/issuer/mock", "Expected '@celastrinajs/issuer/mock'.");
             assert.strictEqual(_issuer.key, "celastrinajsmocktoken_key", "Expected 'celastrinajsmocktoken_key'.");
             assert.deepStrictEqual(_issuer.audiences, ["celastrinajs_mock_aud"], "Expected ['celastrinajs_mock_aud'].");
