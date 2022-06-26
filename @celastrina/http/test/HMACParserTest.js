@@ -21,38 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, instanceOfCelastrinaType} = require("@celastrina/core");
+const {instanceOfCelastrinaType} = require("@celastrina/core");
 const {HMACParser, HeaderParameter, HTTPParameter} = require("../HTTP");
+const {MockPropertyManager} = require("./PropertyManagerTest");
 const assert = require("assert");
 
 describe("HMACParserTest", () => {
     describe("#_create(_HMAC)", () => {
         it("should create hmac config with required field", async () => {
+            let pm = new MockPropertyManager();
             let _object = {
                 $object: {contentType: "application/vnd.celastrinajs.attribute+json;HMAC"},
                 secret: "1234567890123456"
             };
             let _parser = new HMACParser();
             await assert.doesNotReject(() => {
-                return _parser.parse(_object);
+                return _parser.parse(_object, pm);
             });
         });
         it("should reject missing required secret", async () => {
+            let pm = new MockPropertyManager();
             let _object = {
                 _content: {type: "application/vnd.celastrinajs.attribute+json;HMAC"}
             };
             let _parser = new HMACParser();
             await assert.rejects(() => {
-                return _parser.parse(_object);
+                return _parser.parse(_object, pm);
             });
         });
         it("should create hmac config using defaults", async () => {
+            let pm = new MockPropertyManager();
             let _object = {
                 $object: {contentType: "application/vnd.celastrinajs.attribute+json;HMAC"},
                 secret: "1234567890123456"
             };
             let _parser = new HMACParser();
-            /**@type{HMAC}*/let _hmac = await _parser.parse(_object);
+            /**@type{HMAC}*/let _hmac = await _parser.parse(_object, pm);
             assert.strictEqual(_hmac.name, "x-celastrinajs-hmac", "Expected 'x-celastrinajs-hmac'.");
             assert.strictEqual(_hmac.algorithm, "sha256", "Expected 'sha256'.");
             assert.strictEqual(_hmac.encoding, "hex", "Expected 'hex'.");
@@ -60,6 +64,7 @@ describe("HMACParserTest", () => {
             assert.deepStrictEqual(_hmac.assignments.length === 0, true, "Expected size 0.");
         });
         it("should create hmac config", async () => {
+            let pm = new MockPropertyManager();
             let _param = new HeaderParameter();
             let _assignments = ["a1", "a2", "a3"];
             let _object = {
@@ -71,7 +76,7 @@ describe("HMACParserTest", () => {
                 assignments: ["a1", "a2", "a3"]
             };
             let _parser = new HMACParser();
-            /**@type{HMAC}*/let _hmac = await _parser.parse(_object);
+            /**@type{HMAC}*/let _hmac = await _parser.parse(_object, pm);
             assert.strictEqual(_hmac.name, "X-test-name", "Expected 'X-test-name'.");
             assert.strictEqual(_hmac.algorithm, "sha256", "Expected 'sha256'.");
             assert.strictEqual(_hmac.encoding, "hex", "Expected 'hex'.");

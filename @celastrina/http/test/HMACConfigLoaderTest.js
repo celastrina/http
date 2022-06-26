@@ -21,28 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const {CelastrinaError, CelastrinaValidationError, LOG_LEVEL, AddOnManager, Configuration} = require("@celastrina/core");
-const {HMAC, HMACConfigurationParser, HMACAddOn, HTTPAddOn} = require("../HTTP");
+const {HMAC, HMACConfigLoader, HMACAddOn} = require("../HTTP");
 const assert = require("assert");
 const {MockAzureFunctionContext} = require("./AzureFunctionContextMock");
 
-describe("HMACConfigurationParserTest", () => {
-    describe("#_create(_Object)", () => {
+describe("HMACConfigLoaderTest", () => {
+    describe("#_load(_Object)", () => {
         it("should set HMAC in config", async () => {
             let _azcontext = new MockAzureFunctionContext();
             let _hmac = new HMAC("1234567890123456");
-            let _object = {
+            let _Configuration = {
                 $object: {contentType: "application/vnd.celastrinajs.config+json;HMAC"},
                 hmac: _hmac
             };
+            let _loader = new HMACConfigLoader();
             let _config = {};
-            let _addOnManager = new AddOnManager();
-            _addOnManager.add(new HTTPAddOn());
-            _addOnManager.add(new HMACAddOn());
-            let _parser = new HMACConfigurationParser();
-            await _parser.initialize(_azcontext, _config, _addOnManager);
-            await _parser.parse(_object);
-            assert.deepStrictEqual(_addOnManager.get(HMACAddOn).hmac, _hmac, "Expected _hmac.");
+            await _loader.load(_Configuration, _config);
+            assert.deepStrictEqual(_config[HMACAddOn.CONFIG_HMAC], _Configuration, "Expected _Configuration.");
         });
     });
 });

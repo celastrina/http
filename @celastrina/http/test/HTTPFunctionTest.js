@@ -118,7 +118,7 @@ class MockHTTPFunction extends HTTPFunction {
      * @param {HTTPContext} context
      * @return {Promise<void>}
      */
-    async _get(context) {
+    async get(context) {
         this.dummyFunction(context);
         this._getInvoked = true;
         let smocka;
@@ -152,35 +152,35 @@ class MockHTTPFunction extends HTTPFunction {
                 context.log("switch() default: GET test case executed.", LOG_LEVEL.INFO, "MockHTTPFunction._get(context)");
         }
     }
-    async _put(context) {
+    async put(context) {
         this.dummyFunction(context);
         this._putInvoked = true;
     }
-    async _post(context) {
+    async post(context) {
         this.dummyFunction(context);
         this._postInvoked = true;
     }
-    async _delete(context) {
+    async delete(context) {
         this.dummyFunction(context);
         this._deleteInvoked = true;
     }
-    async _head(context) {
+    async head(context) {
         this.dummyFunction(context);
         this._headInvoked = true;
     }
-    async _options(context) {
+    async options(context) {
         this.dummyFunction(context);
         this._optionInvoked = true;
     }
-    async _patch(context) {
+    async patch(context) {
         this.dummyFunction(context);
         this._patchInvoked = true;
     }
-    async _connect(context) {
+    async connect(context) {
         this.dummyFunction(context);
         this._connectInvoked = true;
     }
-    async _trace(context) {
+    async trace(context) {
         this.dummyFunction(context);
         this._traceInvoked = true;
     }
