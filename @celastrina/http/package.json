@@ -1,6 +1,6 @@
 {
   "name": "@celastrina/http",
-  "version": "4.9.24",
+  "version": "4.9.25",
   "description": "HTTP Function Package for Celastrina",
   "main": "HTTP.js",
   "scripts": {
@@ -27,11 +27,11 @@
   },
   "homepage": "https://github.com/celastrina/http-json#readme",
   "dependencies": {
-    "@celastrina/core": "^4.17.45",
+    "@celastrina/core": "^4.17.46",
     "adal-node": "^0.2.2",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwk-to-pem": "^2.0.5",
     "moment": "^2.29.1",
     "uuid": "^8.3.2"
